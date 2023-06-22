@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UserRoleUI">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="440dp"
+        app:srcCompat="@drawable/pic2" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:textColor="#503A65"
+        android:textStyle="bold"
+        android:text="Which option best describes your current role?" />
+
+    <Button
+        android:id="@+id/buttonAdmin"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#503A65"
+        android:text="Admin"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"/>
+
+    <Button
+        android:id="@+id/buttonTrainee"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:textSize="16sp"
+        android:backgroundTint="#503A65"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="Trainee"
+        android:layout_gravity="center"
+        app:cornerRadius="10dp"/>
+
+    <Button
+        android:id="@+id/buttonInstructor"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#503A65"
+        android:text="Instructor"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        app:cornerRadius="10dp" />
+</LinearLayout>
