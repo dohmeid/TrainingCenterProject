@@ -35,17 +35,17 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.textPass);
         sign_in = findViewById(R.id.button_signin);
         sign_up = findViewById(R.id.button_signup);
-        rememberMe = (CheckBox)findViewById(R.id.checkBox);
+        rememberMe = (CheckBox) findViewById(R.id.checkBox);
 
-        dataBaseHelper =new DataBaseHelper(this);
-        dataBaseHelper.insertData("doha@email.com" ,"12345678" );
+        dataBaseHelper = new DataBaseHelper(this);
+        dataBaseHelper.insertData("doha@email.com", "12345678");
         //DataBaseHelper dataBaseHelper =new DataBaseHelper(AddCustomerActivity.this,"DB_NAME_EXP4",null,1);
 
 
-        sharedPreferences=getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-        editor=sharedPreferences.edit();
+        sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         //to get stored data
-        String mail=sharedPreferences.getString("email","No Email Stored");
+        String mail = sharedPreferences.getString("email", "No Email Stored");
         email.setText(mail);
 
 
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         CharSequence str = text.getText().toString();
         return TextUtils.isEmpty(str);
     }
+
     boolean isEmail(EditText text) { //check email format
         CharSequence email = text.getText().toString();
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
@@ -98,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
         if (isEmpty(password)) {
             password.setError("This field is empty!");
             flag = false;
-        }
-        else if (password.getText().toString().length() < 4) {
+        } else if (password.getText().toString().length() < 4) {
             password.setError("Password must be at least 8 characters long!");
             flag = false;
         }
@@ -107,24 +107,21 @@ public class MainActivity extends AppCompatActivity {
         if (flag) {
             String em = email.getText().toString();
             String pass = password.getText().toString();
-            if(dataBaseHelper.checkEmailPassword(em,pass)==true) {
+            if (dataBaseHelper.checkEmailPassword(em, pass) == true) {
                 Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                if(rememberMe.isChecked()){
-                    editor.putString("email",email.getText().toString());
+                if (rememberMe.isChecked()) {
+                    editor.putString("email", email.getText().toString());
                     editor.commit();
-                }
-                else{
-                    editor.putString("email","");
+                } else {
+                    editor.putString("email", "");
                 }
                 //Intent i = new Intent(MainActivity.this, person.class);
                 //startActivity(i);
                 //this.finish(); //close this activity
-            }
-            else {
+            } else {
                 Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 
 }
