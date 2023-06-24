@@ -10,18 +10,18 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="360dp"
         app:srcCompat="@drawable/pic2" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="16sp"
+        android:layout_height="20dp"
+        android:text="Which option best describes your current role?"
         android:textAlignment="center"
         android:textColor="#503A65"
-        android:textStyle="bold"
-        android:text="Which option best describes your current role?" />
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/buttonAdmin"

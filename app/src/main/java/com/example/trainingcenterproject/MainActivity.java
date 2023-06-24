@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button sign_in;
     Button sign_up;
     CheckBox rememberMe;
-    DataBaseHelper dataBaseHelper;
+    DataBaseHelper2 dataBaseHelper;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -37,15 +35,15 @@ public class MainActivity extends AppCompatActivity {
         sign_up = findViewById(R.id.button_signup);
         rememberMe = (CheckBox) findViewById(R.id.checkBox);
 
-        dataBaseHelper = new DataBaseHelper(this);
-        dataBaseHelper.insertData("doha@email.com", "12345678");
+        dataBaseHelper = new DataBaseHelper2(this);
+       // dataBaseHelper.insertData("doha@email.com", "12345678");
         //DataBaseHelper dataBaseHelper =new DataBaseHelper(AddCustomerActivity.this,"DB_NAME_EXP4",null,1);
 
 
         sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         //to get stored data
-        String mail = sharedPreferences.getString("email", "No Email Stored");
+        String mail = sharedPreferences.getString("email", "");
         email.setText(mail);
 
 
@@ -67,44 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    boolean isEmpty(EditText text) { //check if text view is empty
-        CharSequence str = text.getText().toString();
-        return TextUtils.isEmpty(str);
-    }
-
-    boolean isEmail(EditText text) { //check email format
-        CharSequence email = text.getText().toString();
-        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
-    }
-
     void checkData() {
-        boolean flag = true;
 
-       /* if (isEmpty(firstName)) {
-            Toast t = Toast.makeText(this, "You must enter first name to register!", Toast.LENGTH_SHORT);
-            t.show();
-        }
-        if (isEmpty(lastName)) {
-            lastName.setError("Last name is required!");
-        }*/
-        if (isEmpty(email)) {
-            email.setError("This field is empty!");
-            flag = false;
-        } else if (isEmail(email) == false) {
-            email.setError("Please enter valid email!");
-            flag = false;
-        }
-
-        if (isEmpty(password)) {
-            password.setError("This field is empty!");
-            flag = false;
-        } else if (password.getText().toString().length() < 4) {
-            password.setError("Password must be at least 8 characters long!");
-            flag = false;
-        }
-
-        if (flag) {
+        if (checkEmail() && checkPassword()) {
             String em = email.getText().toString();
             String pass = password.getText().toString();
             if (dataBaseHelper.checkEmailPassword(em, pass) == true) {
@@ -121,6 +84,69 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    boolean checkEmail(){
+        String mail = email.getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (mail.isEmpty() || mail.trim().isEmpty()) {
+            email.setError("This field is empty!");
+            return false;
+        }
+        else if (!mail.matches(emailPattern)) {
+            email.setError("Invalid email address");
+            return false;
+        }
+        else {
+            email.setError(null);
+            return true;
+        }
+    }
+
+    boolean checkPassword() {
+        String str = password.getText().toString();
+        char ch;
+        boolean capitalFlag = false;
+        boolean lowerCaseFlag = false;
+        boolean numberFlag = false;
+        boolean formatFlag = false;
+
+        if (str.isEmpty() || str.trim().isEmpty()) {
+            password.setError("This field is empty!");
+            return false;
+        }
+        else if (str.length() < 8) {
+            password.setError("Password must be at least 8 characters long!");
+            return false;
+        }
+        else if (str.length() > 15) {
+            password.setError("Password must be at most 15 characters long!");
+            return false;
+        }
+
+        for(int i=0;i < str.length();i++) {
+            ch = str.charAt(i);
+            if( Character.isDigit(ch)) {
+                numberFlag = true;
+            }
+            else if (Character.isUpperCase(ch)) {
+                capitalFlag = true;
+            } else if (Character.isLowerCase(ch)) {
+                lowerCaseFlag = true;
+            }
+            if(numberFlag && capitalFlag && lowerCaseFlag){
+                formatFlag = true;
+                break;
+            }
+        }
+        if(formatFlag == false){
+            password.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
+            return false;
+        }
+        else {
+            password.setError(null);
+            return true;
         }
     }
 
