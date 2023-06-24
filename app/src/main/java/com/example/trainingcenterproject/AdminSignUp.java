@@ -60,7 +60,7 @@ public class AdminSignUp extends AppCompatActivity {
         boolean b4 = checkPassword();
         boolean b5 = checkConfirmPassword();
         if(b1 && b2 && b3 && b4 && b5){
-            Toast.makeText(AdminSignUp.this, "Successful SignIn", Toast.LENGTH_SHORT).show();
+         Toast.makeText(AdminSignUp.this, "Successful SignIn", Toast.LENGTH_SHORT).show();
             String name1 = firstName.getText().toString();
             String name2 = secondName.getText().toString();
             String mail = email.getText().toString();

@@ -18,6 +18,7 @@ public class UserRoleUI extends AppCompatActivity {
         Button trainee = findViewById(R.id.buttonTrainee);
         Button instructor = findViewById(R.id.buttonInstructor);
         Button back = findViewById(R.id.buttonBack);
+
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
