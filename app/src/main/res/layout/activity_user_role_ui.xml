@@ -10,23 +10,23 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="320dp"
         app:srcCompat="@drawable/pic2" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="16sp"
+        android:layout_height="20dp"
+        android:text="Which option best describes your current role?"
         android:textAlignment="center"
         android:textColor="#503A65"
-        android:textStyle="bold"
-        android:text="Which option best describes your current role?" />
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/buttonAdmin"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
+        android:layout_width="330dp"
+        android:layout_height="55dp"
         android:layout_gravity="center"
         android:backgroundTint="#503A65"
         android:text="Admin"
@@ -38,8 +38,8 @@
 
     <Button
         android:id="@+id/buttonTrainee"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
+        android:layout_width="330dp"
+        android:layout_height="55dp"
         android:textSize="16sp"
         android:backgroundTint="#503A65"
         android:textAlignment="center"
@@ -51,12 +51,25 @@
 
     <Button
         android:id="@+id/buttonInstructor"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
+        android:layout_width="330dp"
+        android:layout_height="55dp"
         android:backgroundTint="#503A65"
         android:text="Instructor"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        app:cornerRadius="10dp" />
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="330dp"
+        android:layout_height="55dp"
+        android:backgroundTint="#E0F0EA"
+        android:text="Back"
+        android:textAlignment="center"
+        android:textColor="#574F7D"
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_gravity="center"
