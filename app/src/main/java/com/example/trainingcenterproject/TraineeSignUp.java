@@ -152,11 +152,6 @@ public class TraineeSignUp extends AppCompatActivity {
     boolean checkPassword() {
         String str = password.getText().toString();
         String str2 = confirmPass.getText().toString();
-        char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
-        boolean formatFlag = false;
 
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
@@ -231,11 +226,6 @@ public class TraineeSignUp extends AppCompatActivity {
             address.setError(null);
             return true;
         }
-    }
-
-    boolean checkImage(){
-        //photo.setImageResource(R.drawable.placeholder)
-        return true;
     }
 
     private void openImagePicker() {

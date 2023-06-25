@@ -27,18 +27,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("drop Table if exists INSTRUCTORS");
     }
 
-    public Boolean checkEmailPassword(String email, String password){
+    public Boolean adminCheckEmailPassword(String email, String password) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor1 = MyDatabase.rawQuery("Select * from ADMINS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
-        if (cursor1.getCount() > 0) {
+        Cursor cursor = MyDatabase.rawQuery("Select * from ADMINS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        if (cursor.getCount() > 0) {
             return true;
         }
-        Cursor cursor2 = MyDatabase.rawQuery("Select * from TRAINEES where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
-        if (cursor2.getCount() > 0) {
+        return false;
+    }
+
+    public Boolean traineeCheckEmailPassword(String email, String password) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from TRAINEES where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        if (cursor.getCount() > 0) {
             return true;
         }
-        Cursor cursor3 = MyDatabase.rawQuery("Select * from INSTRUCTORS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
-        if (cursor3.getCount() > 0) {
+        return false;
+    }
+
+    public Boolean instructorCheckEmailPassword(String email, String password) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from INSTRUCTORS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        if (cursor.getCount() > 0) {
             return true;
         }
         return false;
@@ -57,7 +67,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAllAdmins() {
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM ADMIN", null);
+        return MyDatabase.rawQuery("SELECT * FROM ADMINS", null);
     }
 
 

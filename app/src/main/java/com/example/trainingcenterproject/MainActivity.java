@@ -68,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
             dataBaseHelper = new DataBaseHelper(this);
             //DataBaseHelper dataBaseHelper =new DataBaseHelper(AddCustomerActivity.this,"DB_NAME_EXP4",null,1);
 
-            if (dataBaseHelper.checkEmailPassword(em, pass)) {
+            boolean b3 = dataBaseHelper.adminCheckEmailPassword(em, pass);
+            boolean b4 = dataBaseHelper.traineeCheckEmailPassword(em, pass);
+            boolean b5 = dataBaseHelper.instructorCheckEmailPassword(em, pass);
+
+            if (b3||b4||b5){
                 Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                 if (rememberMe.isChecked()) {
                     editor.putString("email", email.getText().toString());
@@ -76,10 +80,17 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     editor.putString("email", "");
                 }
-                //Intent i = new Intent(MainActivity.this, person.class);
-                //startActivity(i);
-                //this.finish(); //close this activity
-            } else {
+
+                if(b3)
+                    startActivity(new Intent(MainActivity.this, AdminHomeView.class));
+                else if(b4)
+                    startActivity(new Intent(MainActivity.this, TraineeHomeView.class));
+                else
+                    startActivity(new Intent(MainActivity.this, InstructorHomeView.class));
+
+                finish(); //close this activity
+            }
+            else {
                 Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -104,12 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
     boolean checkPassword() {
         String str = password.getText().toString();
-        char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
-        boolean formatFlag = false;
-
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
             return false;

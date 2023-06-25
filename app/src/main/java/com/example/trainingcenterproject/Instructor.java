@@ -11,7 +11,6 @@ public class Instructor extends User {
     ArrayList<String> courses = new ArrayList<>();
 
     public Instructor(){
-
     }
 
     public Instructor(String firstName, String secondName, String email, String password, String photo, String mobile_number, String address, String specialization, String degree, ArrayList<String> courses) {

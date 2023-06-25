@@ -12,7 +12,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <TextView
         android:id="@+id/textView9"
@@ -112,63 +112,80 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Password (8 or more characters)"
+        android:layout_gravity="left"
+        android:paddingLeft="10dp"
+        android:text="Password"
         android:textColor="#FFFFFF"
         android:textSize="14sp" />
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLength="15"
+                android:minHeight="48dp"
+                android:textColor="#503A65"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        android:maxLength="15"
-        android:minHeight="48dp"
-        android:textColor="#503A65"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="left"
+        android:paddingLeft="20dp"
         android:text="Confirm Password"
         android:textColor="#FFFFFF"
         android:textSize="14sp" />
 
-    <EditText
-        android:id="@+id/editTextConfirmPass"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
+            <EditText
+                android:id="@+id/editTextConfirmPass"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:maxLength="15"
+                android:minHeight="48dp"
+                android:textColor="#503A65"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-        android:maxLength="15"
-        android:minHeight="48dp"
-        android:textColor="#503A65"
-        android:textSize="14sp" />
+    </LinearLayout>
+
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -240,8 +257,102 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView212"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingLeft="10dp"
+                android:text="Specialization"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/editTextSpecialization"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:hint="Specialization"
+                android:inputType="textPersonName"
+                android:maxLength="8"
+                android:minHeight="48dp"
+                android:textColor="#503A65"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView213"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingLeft="20dp"
+                android:text="Select Degree"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="#FFFFFF"
+                android:spinnerMode="dropdown"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+
+    <TextView
+        android:id="@+id/textView119"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Enter courses separated by comma"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextCourses"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Courses"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:textColor="#503A65"
+        android:textSize="14sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
 
     <TextView
         android:id="@+id/textView12"
@@ -281,7 +392,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/traineeImage"
+            android:id="@+id/instructorImage"
             android:layout_width="150dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
@@ -296,7 +407,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <Button
         android:id="@+id/button"

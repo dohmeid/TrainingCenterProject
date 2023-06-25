@@ -22,7 +22,7 @@ public class AdminSignUp extends AppCompatActivity {
     ImageView photo;
     private Uri selectedImageUri;
     private static final int PICK_IMAGE_REQUEST = 1;
-    Button imgbtn;
+    Button imgBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,10 @@ public class AdminSignUp extends AppCompatActivity {
         password = findViewById(R.id.editTextPassword);
         confirmPass = findViewById(R.id.editTextConfirmPass);
         photo = findViewById(R.id.traineeImage);
-        imgbtn = findViewById(R.id.buttonImage);
+        imgBtn = findViewById(R.id.buttonImage);
         Button getStarted = findViewById(R.id.button);
 
-        imgbtn.setOnClickListener(new View.OnClickListener() {
+        imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImagePicker();
@@ -58,23 +58,23 @@ public class AdminSignUp extends AppCompatActivity {
         boolean b2 = checkSecondName();
         boolean b3 = checkEmail();
         boolean b4 = checkPassword();
-        boolean b5 = checkConfirmPassword();
-        if(b1 && b2 && b3 && b4 && b5){
-         Toast.makeText(AdminSignUp.this, "Successful SignIn", Toast.LENGTH_SHORT).show();
+        boolean b5 = checkPasswordConfirmation();
+        boolean b6 = checkImage();
+
+        if(b1 && b2 && b3 && b4 && b5 && b6){
+            Toast.makeText(AdminSignUp.this, "Successful SignIn", Toast.LENGTH_SHORT).show();
             String name1 = firstName.getText().toString();
             String name2 = secondName.getText().toString();
             String mail = email.getText().toString();
             String pass = password.getText().toString();
 
-            Admin newAdmin =new Admin(name1,name2,mail,pass," ");
+            Admin newAdmin =new Admin(name1,name2,mail,pass,selectedImageUri.toString());
             DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
             dataBaseHelper.insertAdmin(newAdmin);
 
             //go to admin profile
-            //Intent i = new Intent(MainActivity.this, person.class);
-            //startActivity(i);
-            //this.finish(); //close this activity
-
+            startActivity(new Intent(AdminSignUp.this, AdminHomeView.class));
+            this.finish(); //close this activity
         }
         else{
             Toast.makeText(AdminSignUp.this, "SignIn Failed - ERROR (check input fields)!", Toast.LENGTH_SHORT).show();
@@ -141,11 +141,6 @@ public class AdminSignUp extends AppCompatActivity {
 
     boolean checkPassword() {
         String str = password.getText().toString();
-        char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
-        boolean formatFlag = false;
 
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
@@ -159,24 +154,19 @@ public class AdminSignUp extends AppCompatActivity {
             password.setError("Password must be at most 15 characters long!");
             return false;
         }
-
-        for(int i=0;i < str.length();i++) {
-            ch = str.charAt(i);
-            if( Character.isDigit(ch)) {
-                numberFlag = true;
-            }
-            else if (Character.isUpperCase(ch)) {
-                capitalFlag = true;
-            } else if (Character.isLowerCase(ch)) {
-                lowerCaseFlag = true;
-            }
-            if(numberFlag && capitalFlag && lowerCaseFlag){
-                formatFlag = true;
-                break;
-            }
+        // Check if the string contains at least one number.
+        else if (!str.matches(".*\\d.*")) {
+            password.setError("Password must contain at least one number.");
+            return false;
         }
-        if(!formatFlag){
-            password.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
+        // Check if the string contains at least one lowercase letter.
+        else if (!str.matches(".*[a-z].*")) {
+            password.setError("Password must contain at least one lowercase letter.");
+            return false;
+        }
+        // Check if the string contains at least one uppercase letter.
+        else if (!str.matches(".*[A-Z].*")) {
+            password.setError("Password must contain at least one uppercase letter.");
             return false;
         }
         else {
@@ -185,49 +175,16 @@ public class AdminSignUp extends AppCompatActivity {
         }
     }
 
-    boolean checkConfirmPassword() {
-        String str = confirmPass.getText().toString();
-        String pass = password.getText().toString();
-        char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
-        boolean formatFlag = false;
-
-        if (str.isEmpty() || str.trim().isEmpty()) {
+    boolean checkPasswordConfirmation(){
+        String str = password.getText().toString();
+        String str2 = confirmPass.getText().toString();
+        if (str2.isEmpty() || str2.trim().isEmpty()) {
             confirmPass.setError("This field is empty!");
             return false;
         }
-        else if (str.length() < 8) {
-            confirmPass.setError("Password must be at least 8 characters long!");
-            return false;
-        }
-        else if (str.length() > 15) {
-            confirmPass.setError("Password must be at most 15 characters long!");
-            return false;
-        }
-
-        for(int i=0;i < str.length();i++) {
-            ch = str.charAt(i);
-            if( Character.isDigit(ch)) {
-                numberFlag = true;
-            }
-            else if (Character.isUpperCase(ch)) {
-                capitalFlag = true;
-            } else if (Character.isLowerCase(ch)) {
-                lowerCaseFlag = true;
-            }
-            if(numberFlag && capitalFlag && lowerCaseFlag){
-                formatFlag = true;
-                break;
-            }
-        }
-        if(!formatFlag){
-            confirmPass.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
-            return false;
-        }
-        else if(!str.equals(pass)){
-            confirmPass.setError("Passwords are not matching!");
+        else if (!str2.equals(str)) {
+            confirmPass.setError("Passwords do not match");
+            confirmPass.requestFocus();
             return false;
         }
         else {
@@ -238,9 +195,13 @@ public class AdminSignUp extends AppCompatActivity {
 
     boolean checkImage(){
         //photo.setImageResource(R.drawable.placeholder)
+        if(photo == null){
+            Toast toast =Toast.makeText(AdminSignUp.this, "Please Attach your photo",Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
         return true;
     }
-
 
     private void openImagePicker() {
         Intent intent = new Intent();
