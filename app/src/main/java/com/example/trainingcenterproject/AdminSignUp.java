@@ -34,7 +34,7 @@ public class AdminSignUp extends AppCompatActivity {
         email = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.editTextPassword);
         confirmPass = findViewById(R.id.editTextConfirmPass);
-        photo = findViewById(R.id.imageView3);
+        photo = findViewById(R.id.traineeImage);
         imgbtn = findViewById(R.id.buttonImage);
         Button getStarted = findViewById(R.id.button);
 
@@ -175,7 +175,7 @@ public class AdminSignUp extends AppCompatActivity {
                 break;
             }
         }
-        if(formatFlag == false){
+        if(!formatFlag){
             password.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
             return false;
         }
@@ -222,11 +222,11 @@ public class AdminSignUp extends AppCompatActivity {
                 break;
             }
         }
-        if(formatFlag == false){
+        if(!formatFlag){
             confirmPass.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
             return false;
         }
-        else if(str.equals(pass) == false){
+        else if(!str.equals(pass)){
             confirmPass.setError("Passwords are not matching!");
             return false;
         }

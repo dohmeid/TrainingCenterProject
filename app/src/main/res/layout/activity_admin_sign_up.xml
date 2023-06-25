@@ -189,7 +189,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/traineeImage"
             android:layout_width="150dp"
             android:layout_height="80dp"
             android:layout_gravity="center"

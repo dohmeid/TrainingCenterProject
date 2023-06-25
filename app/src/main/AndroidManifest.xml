@@ -12,6 +12,9 @@
         android:theme="@style/Theme.TrainingCenterProject"
         tools:targetApi="31">
         <activity
+            android:name=".TraineeHomeView"
+            android:exported="false" />
+        <activity
             android:name=".InstructorSignUp"
             android:exported="false" />
         <activity

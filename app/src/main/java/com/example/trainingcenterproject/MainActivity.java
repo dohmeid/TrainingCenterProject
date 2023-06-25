@@ -118,30 +118,6 @@ public class MainActivity extends AppCompatActivity {
             password.setError("Password must be at least 8 characters long!");
             return false;
         }
-        else if (str.length() > 15) {
-            password.setError("Password must be at most 15 characters long!");
-            return false;
-        }
-
-        for(int i=0;i < str.length();i++) {
-            ch = str.charAt(i);
-            if( Character.isDigit(ch)) {
-                numberFlag = true;
-            }
-            else if (Character.isUpperCase(ch)) {
-                capitalFlag = true;
-            } else if (Character.isLowerCase(ch)) {
-                lowerCaseFlag = true;
-            }
-            if(numberFlag && capitalFlag && lowerCaseFlag){
-                formatFlag = true;
-                break;
-            }
-        }
-        if(formatFlag == false){
-            password.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
-            return false;
-        }
         else {
             password.setError(null);
             return true;

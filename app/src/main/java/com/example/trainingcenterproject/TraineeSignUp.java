@@ -3,6 +3,7 @@ package com.example.trainingcenterproject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -22,8 +23,9 @@ public class TraineeSignUp extends AppCompatActivity {
     ImageView photo;
     private Uri selectedImageUri;
     private static final int PICK_IMAGE_REQUEST = 1;
-    Button imgbtn;
+    Button imgBtn;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +39,11 @@ public class TraineeSignUp extends AppCompatActivity {
         number = findViewById(R.id.editTextMobile);
         address = findViewById(R.id.editTextAddress);
 
-        photo = findViewById(R.id.imageView3);
-        imgbtn = findViewById(R.id.buttonImage);
+        photo = findViewById(R.id.traineeImage);
+        imgBtn = findViewById(R.id.buttonImage);
         Button getStarted = findViewById(R.id.button);
 
-        imgbtn.setOnClickListener(new View.OnClickListener() {
+        imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImagePicker();
@@ -62,7 +64,7 @@ public class TraineeSignUp extends AppCompatActivity {
         boolean b2 = checkSecondName();
         boolean b3 = checkEmail();
         boolean b4 = checkPassword();
-        boolean b5 = checkConfirmPassword();
+        boolean b5 = checkPhoto();
         boolean b6 = checkMobileNumber();
         boolean b7 = checkAddress();
 
@@ -75,14 +77,13 @@ public class TraineeSignUp extends AppCompatActivity {
             String num = number.getText().toString();
             String add = address.getText().toString();
 
-            Trainee newTrainee =new Trainee(name1,name2,mail,pass," ",num,add);
+            Trainee newTrainee =new Trainee(name1,name2,mail,pass,selectedImageUri.toString(),num,add);
             DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
             dataBaseHelper.insertTrainee(newTrainee);
 
             //go to Trainee profile
-            //Intent i = new Intent(MainActivity.this, person.class);
-            //startActivity(i);
-            //this.finish(); //close this activity
+            startActivity(new Intent(TraineeSignUp.this, TraineeHomeView.class));
+            finish(); //close this activity
 
         }
         else{
@@ -150,6 +151,7 @@ public class TraineeSignUp extends AppCompatActivity {
 
     boolean checkPassword() {
         String str = password.getText().toString();
+        String str2 = confirmPass.getText().toString();
         char ch;
         boolean capitalFlag = false;
         boolean lowerCaseFlag = false;
@@ -168,24 +170,24 @@ public class TraineeSignUp extends AppCompatActivity {
             password.setError("Password must be at most 15 characters long!");
             return false;
         }
-
-        for(int i=0;i < str.length();i++) {
-            ch = str.charAt(i);
-            if( Character.isDigit(ch)) {
-                numberFlag = true;
-            }
-            else if (Character.isUpperCase(ch)) {
-                capitalFlag = true;
-            } else if (Character.isLowerCase(ch)) {
-                lowerCaseFlag = true;
-            }
-            if(numberFlag && capitalFlag && lowerCaseFlag){
-                formatFlag = true;
-                break;
-            }
+        // Check if the string contains at least one number.
+        else if (!str.matches(".*\\d.*")) {
+            password.setError("Password must contain at least one number.");
+            return false;
         }
-        if(formatFlag == false){
-            password.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
+        // Check if the string contains at least one lowercase letter.
+        else if (!str.matches(".*[a-z].*")) {
+            password.setError("Password must contain at least one lowercase letter.");
+            return false;
+        }
+        // Check if the string contains at least one uppercase letter.
+        else if (!str.matches(".*[A-Z].*")) {
+            password.setError("Password must contain at least one uppercase letter.");
+            return false;
+        }
+        else if (!str.equals(str2)) {
+            confirmPass.setError("Passwords do not match");
+            confirmPass.requestFocus();
             return false;
         }
         else {
@@ -194,55 +196,13 @@ public class TraineeSignUp extends AppCompatActivity {
         }
     }
 
-    boolean checkConfirmPassword() {
-        String str = confirmPass.getText().toString();
-        String pass = password.getText().toString();
-        char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
-        boolean formatFlag = false;
-
-        if (str.isEmpty() || str.trim().isEmpty()) {
-            confirmPass.setError("This field is empty!");
+    boolean checkPhoto() {
+        if(photo == null){
+            Toast toast =Toast.makeText(TraineeSignUp.this, "Please Attach your photo",Toast.LENGTH_SHORT);
+            toast.show();
             return false;
         }
-        else if (str.length() < 8) {
-            confirmPass.setError("Password must be at least 8 characters long!");
-            return false;
-        }
-        else if (str.length() > 15) {
-            confirmPass.setError("Password must be at most 15 characters long!");
-            return false;
-        }
-
-        for(int i=0;i < str.length();i++) {
-            ch = str.charAt(i);
-            if( Character.isDigit(ch)) {
-                numberFlag = true;
-            }
-            else if (Character.isUpperCase(ch)) {
-                capitalFlag = true;
-            } else if (Character.isLowerCase(ch)) {
-                lowerCaseFlag = true;
-            }
-            if(numberFlag && capitalFlag && lowerCaseFlag){
-                formatFlag = true;
-                break;
-            }
-        }
-        if(formatFlag == false){
-            confirmPass.setError("Password must be contain at least 1 number, 1 lowercase letter, and 1 uppercase letter!");
-            return false;
-        }
-        else if(str.equals(pass) == false){
-            confirmPass.setError("Passwords are not matching!");
-            return false;
-        }
-        else {
-            confirmPass.setError(null);
-            return true;
-        }
+        return true;
     }
 
     boolean checkMobileNumber(){
