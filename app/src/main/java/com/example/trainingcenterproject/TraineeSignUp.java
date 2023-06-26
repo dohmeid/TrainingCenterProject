@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +24,7 @@ public class TraineeSignUp extends AppCompatActivity {
     EditText firstName,secondName,email,password,confirmPass,number,address;
     ImageView photo;
     private Uri selectedImageUri;
-    private static final int PICK_IMAGE_REQUEST = 1;
+    static final int PICK_IMAGE_REQUEST = 1;
     Button imgBtn;
 
     @SuppressLint("MissingInflatedId")
@@ -78,11 +80,15 @@ public class TraineeSignUp extends AppCompatActivity {
             String add = address.getText().toString();
 
             Trainee newTrainee =new Trainee(name1,name2,mail,pass,selectedImageUri.toString(),num,add);
-            DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
+            DataBaseHelper dataBaseHelper =new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
             dataBaseHelper.insertTrainee(newTrainee);
 
+            saveSignUpDetails();
+
             //go to Trainee profile
-            startActivity(new Intent(TraineeSignUp.this, TraineeHomeView.class));
+            Intent intent = new Intent(TraineeSignUp.this, TraineeHomeView.class);
+            intent.putExtra("email", email.getText().toString());
+            startActivity(intent);
             finish(); //close this activity
 
         }
@@ -211,8 +217,8 @@ public class TraineeSignUp extends AppCompatActivity {
             number.setError("This field cannot be empty");
             return false;
         }
-        else if (number.length() != 8) {
-            number.setError("Number must contain 8 digits!");
+        else if (number.length() < 10) {
+            number.setError("Number must contain 10 digits!");
             return false;
         }
         else {
@@ -231,11 +237,6 @@ public class TraineeSignUp extends AppCompatActivity {
             address.setError(null);
             return true;
         }
-    }
-
-    boolean checkImage(){
-        //photo.setImageResource(R.drawable.placeholder)
-        return true;
     }
 
     private void openImagePicker() {
@@ -259,6 +260,14 @@ public class TraineeSignUp extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void saveSignUpDetails() {
+        SharedPreferences settings = getSharedPreferences("userSignUp", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("Email", email.getText().toString());
+        editor.putBoolean("PREF_IS_LOGIN_KEY", true);
+        editor.commit();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.trainingcenterproject;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final String databaseName = "USERS_DATABASE";
-    public DataBaseHelper(Context context) {
-        super(context, databaseName, null, 1);
+    public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
     }
 
     @Override
@@ -18,6 +19,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("CREATE TABLE ADMINS(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO TEXT)");
         MyDatabase.execSQL("CREATE TABLE TRAINEES(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO TEXT,MOBILE_NUM TEXT,ADDRESS TEXT)");
         MyDatabase.execSQL("CREATE TABLE INSTRUCTORS(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO TEXT,MOBILE_NUM TEXT,ADDRESS TEXT)");
+        MyDatabase.execSQL("CREATE TABLE COURSES(ID INT PRIMARY KEY AUTOINCREMENT, TITLE TEXT, MAINTOPICS TEXT, PREREQUISITS TEXT, INSTRUCTOR TEXT,DEADLINE DATE,STARTDATE DATE, " +
+                "SCHEDULE TEXT, VENUE TEXT)");
     }
 
     @Override
@@ -27,21 +30,47 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("drop Table if exists INSTRUCTORS");
     }
 
-    public Boolean checkEmailPassword(String email, String password){
+    public int checkEmailPassword(String email, String password){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor1 = MyDatabase.rawQuery("Select * from ADMINS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        @SuppressLint("Recycle") Cursor cursor1 = MyDatabase.rawQuery("Select * from ADMINS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        if (cursor1.getCount() > 0) {
+            return 1;
+        }
+        @SuppressLint("Recycle") Cursor cursor2 = MyDatabase.rawQuery("Select * from TRAINEES where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        if (cursor2.getCount() > 0) {
+            return 2;
+        }
+        @SuppressLint("Recycle") Cursor cursor3 = MyDatabase.rawQuery("Select * from INSTRUCTORS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        if (cursor3.getCount() > 0) {
+            return 3;
+        }
+        return -1;
+    }
+
+    public boolean checkEmails(String email){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        @SuppressLint("Recycle") Cursor cursor1 = MyDatabase.rawQuery("Select * from ADMINS where EMAIL = ?", new String[]{email});
         if (cursor1.getCount() > 0) {
             return true;
         }
-        Cursor cursor2 = MyDatabase.rawQuery("Select * from TRAINEES where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        @SuppressLint("Recycle") Cursor cursor2 = MyDatabase.rawQuery("Select * from TRAINEES where EMAIL = ?", new String[]{email});
         if (cursor2.getCount() > 0) {
             return true;
         }
-        Cursor cursor3 = MyDatabase.rawQuery("Select * from INSTRUCTORS where EMAIL = ? and PASSWORD = ?", new String[]{email, password});
+        @SuppressLint("Recycle") Cursor cursor3 = MyDatabase.rawQuery("Select * from INSTRUCTORS where EMAIL = ?", new String[]{email});
         if (cursor3.getCount() > 0) {
             return true;
         }
         return false;
+    }
+
+    public void updateTrainee(String email, StringBuilder fName, String lName, String password, String photo, String phone, String address) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE TRAINEES " +
+                "SET NAME1 = '" + fName +
+                "', NAME2 = '" + lName + "', PASSWORD = '" + password + "', MOBILE_NUM = '" + phone + "'"
+                + ",  ADDRESS = '" + address + "' ,  PHOTO = '" + photo + "'WHERE EMAIL = '" + email + "'");
+        db.close();
     }
 
     public void insertAdmin(Admin a) {
@@ -79,6 +108,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return MyDatabase.rawQuery("SELECT * FROM TRAINEES", null);
     }
 
+    public Cursor getTrainees(String email) {
+        SQLiteDatabase MyDatabase = getReadableDatabase();
+        return MyDatabase.rawQuery("SELECT * FROM TRAINEES WHERE EMAIL = '" + email + "'" , null);
+    }
+
     public void insertInstructor(Instructor a) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -90,6 +124,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("MOBILE_NUM", a.getMobile_number());
         contentValues.put("ADDRESS", a.getAddress());
         MyDatabase.insert("INSTRUCTORS", null, contentValues);
+    }
+
+    public void insertCourse(Course a) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TITLE", a.getCourseTitle());
+        contentValues.put("MAINTOPICS", a.getCourseMainTopics());
+        contentValues.put("PREREQUISITS", a.getPrerequisites());
+        contentValues.put("INSTRUCTOR", a.getInstructorName());
+        contentValues.put("DEADLINE", a.getRegistrationDeadline());
+        contentValues.put("STARTDATE", a.getCourseStartDate());
+        contentValues.put("SCHEDULE", a.getCourseSchedule());
+        contentValues.put("VENUE", a.getVenue());
+        MyDatabase.insert("COURSES", null, contentValues);
     }
 
     public Cursor getAllInstructors() {

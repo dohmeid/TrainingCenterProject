@@ -67,7 +67,7 @@ public class AdminSignUp extends AppCompatActivity {
             String pass = password.getText().toString();
 
             Admin newAdmin =new Admin(name1,name2,mail,pass," ");
-            DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
+            DataBaseHelper dataBaseHelper =new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
             dataBaseHelper.insertAdmin(newAdmin);
 
             //go to admin profile
