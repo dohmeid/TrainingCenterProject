@@ -19,8 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TraineeProfile extends AppCompatActivity {
 
@@ -31,7 +29,7 @@ public class TraineeProfile extends AppCompatActivity {
     Button save, cancel;
     private Uri selectedImageUri;
 
-    DataBaseHelper dataBaseHelper = new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
+   // DataBaseHelper dataBaseHelper = new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
 
     @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
@@ -84,9 +82,7 @@ public class TraineeProfile extends AppCompatActivity {
         });
 
 
-        photo.setOnClickListener(view -> {
-            openImagePicker();
-        });
+        photo.setOnClickListener(view -> openImagePicker());
 
         save.setOnClickListener(view -> {
             StringBuilder firstName = new StringBuilder();

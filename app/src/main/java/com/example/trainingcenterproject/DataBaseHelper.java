@@ -19,8 +19,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("CREATE TABLE ADMINS(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO TEXT)");
         MyDatabase.execSQL("CREATE TABLE TRAINEES(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO TEXT,MOBILE_NUM TEXT,ADDRESS TEXT)");
         MyDatabase.execSQL("CREATE TABLE INSTRUCTORS(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO TEXT,MOBILE_NUM TEXT,ADDRESS TEXT)");
-        MyDatabase.execSQL("CREATE TABLE COURSES(ID INT PRIMARY KEY AUTOINCREMENT, TITLE TEXT, MAINTOPICS TEXT, PREREQUISITS TEXT, INSTRUCTOR TEXT,DEADLINE DATE,STARTDATE DATE, " +
+        MyDatabase.execSQL("CREATE TABLE COURSES(ID INT PRIMARY KEY AUTOINCREMENT, TITLE TEXT, MAIN_TOPICS TEXT, PREREQUISITES TEXT, INSTRUCTOR TEXT,DEADLINE DATE,START_DATE DATE, " +
                 "SCHEDULE TEXT, VENUE TEXT)");
+        MyDatabase.execSQL("CREATE TABLE REGISTERED_COURSES(ID INT PRIMARY KEY AUTOINCREMENT, COURSE_ID INT, USER_EMAIL TEXT)");
     }
 
     @Override
@@ -89,6 +90,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return MyDatabase.rawQuery("SELECT * FROM ADMIN", null);
     }
 
+    public Cursor getAllCourses() {
+        SQLiteDatabase MyDatabase = getReadableDatabase();
+        return MyDatabase.rawQuery("SELECT * FROM COURSES", null);
+    }
+
 
     public void insertTrainee(Trainee a) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
@@ -130,11 +136,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("TITLE", a.getCourseTitle());
-        contentValues.put("MAINTOPICS", a.getCourseMainTopics());
-        contentValues.put("PREREQUISITS", a.getPrerequisites());
+        contentValues.put("MAIN_TOPICS", a.getCourseMainTopics());
+        contentValues.put("PREREQUISITES", a.getPrerequisites());
         contentValues.put("INSTRUCTOR", a.getInstructorName());
         contentValues.put("DEADLINE", a.getRegistrationDeadline());
-        contentValues.put("STARTDATE", a.getCourseStartDate());
+        contentValues.put("START_DATE", a.getCourseStartDate());
         contentValues.put("SCHEDULE", a.getCourseSchedule());
         contentValues.put("VENUE", a.getVenue());
         MyDatabase.insert("COURSES", null, contentValues);
