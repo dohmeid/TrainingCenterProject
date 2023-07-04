@@ -44,7 +44,6 @@
                 android:ems="10"
                 android:hint="First Name"
                 android:inputType="textPersonName"
-
                 android:maxLength="20"
                 android:minHeight="48dp"
                 android:textColor="#503A65"
@@ -289,7 +288,7 @@
                 android:ems="10"
                 android:hint="Specialization"
                 android:inputType="textPersonName"
-                android:maxLength="8"
+                android:maxLength="30"
                 android:minHeight="48dp"
                 android:textColor="#503A65"
                 android:textSize="14sp" />

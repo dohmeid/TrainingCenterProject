@@ -17,7 +17,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class InstructorSignUp extends AppCompatActivity {
@@ -56,7 +59,7 @@ public class InstructorSignUp extends AppCompatActivity {
         arrayList.add("Master's degree");
         arrayList.add("Doctoral degree");
         arrayList.add("Professional degree");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, arrayList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -70,22 +73,18 @@ public class InstructorSignUp extends AppCompatActivity {
             }
         });
 
-        imgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImagePicker();
-            }
-        });
+        imgBtn.setOnClickListener(v -> openImagePicker());
 
-        getStarted.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        getStarted.setOnClickListener(view -> {
+            try {
                 validateData();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
     }
 
-    void validateData() {
+    void validateData() throws IOException {
         boolean b1 = checkFirstName();
         boolean b2 = checkSecondName();
         boolean b3 = checkEmail();
@@ -104,7 +103,10 @@ public class InstructorSignUp extends AppCompatActivity {
             String name2 = secondName.getText().toString();
             String mail = email.getText().toString();
             String pass = password.getText().toString();
+
             String img = selectedImageUri.toString();
+            byte[] imageBytes = convertImageUriToByteArray(selectedImageUri);
+
             String num = number.getText().toString();
             String add = address.getText().toString();
             String sp = specialization.getText().toString();
@@ -117,12 +119,15 @@ public class InstructorSignUp extends AppCompatActivity {
                 c.add(item);
             }
 
-            Instructor newInstructor =new Instructor(name1,name2,mail,pass,img,num,add,sp,selectedDegree,c);
+            Instructor newInstructor =new Instructor(name1,name2,mail,pass,imageBytes,num,add,sp,selectedDegree,c);
             DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
             dataBaseHelper.insertInstructor(newInstructor);
 
             //go to Instructor profile
-            startActivity(new Intent(InstructorSignUp.this, InstructorHomeView.class));
+            Intent i = new Intent(InstructorSignUp.this, InstructorHome.class);
+           // i.putExtra("instructor", newInstructor); //send the new Instructor object to the next intent
+            i.putExtra("email", mail);
+            startActivity(i);
             this.finish(); //close this activity
         }
         else{
@@ -174,12 +179,17 @@ public class InstructorSignUp extends AppCompatActivity {
     boolean checkEmail(){
         String mail = email.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
         if (mail.isEmpty() || mail.trim().isEmpty()) {
             email.setError("This field is empty!");
             return false;
         }
         else if (!mail.matches(emailPattern)) {
             email.setError("Invalid email address");
+            return false;
+        }
+        else if(!dataBaseHelper.isUniqueEmail(mail)){
+            email.setError("This email is already used, please use a unique email address");
             return false;
         }
         else {
@@ -190,6 +200,7 @@ public class InstructorSignUp extends AppCompatActivity {
 
     boolean checkPassword() {
         String str = password.getText().toString();
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
 
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
@@ -216,6 +227,10 @@ public class InstructorSignUp extends AppCompatActivity {
         // Check if the string contains at least one uppercase letter.
         else if (!str.matches(".*[A-Z].*")) {
             password.setError("Password must contain at least one uppercase letter.");
+            return false;
+        }
+        else if(!dataBaseHelper.isUniquePassword(str)){
+            password.setError("This password is already taken, enter a unique password");
             return false;
         }
         else {
@@ -248,8 +263,8 @@ public class InstructorSignUp extends AppCompatActivity {
             number.setError("This field cannot be empty");
             return false;
         }
-        else if (number.length() != 8) {
-            number.setError("Number must contain 8 digits!");
+        else if (number.length() != 10) {
+            number.setError("Number must contain 10 digits!");
             return false;
         }
         else {
@@ -296,7 +311,8 @@ public class InstructorSignUp extends AppCompatActivity {
 
     boolean checkImage(){
         //photo.setImageResource(R.drawable.placeholder)
-        if(photo == null){
+       // if(selectedImageUri == null){
+        if(selectedImageUri == null){
             Toast toast =Toast.makeText(InstructorSignUp.this, "Please Attach your photo",Toast.LENGTH_SHORT);
             toast.show();
             return false;
@@ -325,6 +341,20 @@ public class InstructorSignUp extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private byte[] convertImageUriToByteArray(Uri imageUri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(imageUri);
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+
+        return byteBuffer.toByteArray();
     }
 
 }

@@ -7,11 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,20 +43,12 @@ public class MainActivity extends AppCompatActivity {
         String mail = sharedPreferences.getString("email", "");
         email.setText(mail);
 
-        sign_in.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkData();
-            }
-        });
+        sign_in.setOnClickListener(view -> checkData());
 
-        sign_up.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, UserRoleUI.class);
-                startActivity(i);
-                finish(); //close this activity
-            }
+        sign_up.setOnClickListener(view -> {
+            Intent i = new Intent(MainActivity.this, UserRoleUI.class);
+            startActivity(i);
+            finish(); //close this activity
         });
 
     }
@@ -66,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             String em = email.getText().toString();
             String pass = password.getText().toString();
             dataBaseHelper = new DataBaseHelper(this);
-            //DataBaseHelper dataBaseHelper =new DataBaseHelper(AddCustomerActivity.this,"DB_NAME_EXP4",null,1);
 
             boolean b3 = dataBaseHelper.adminCheckEmailPassword(em, pass);
             boolean b4 = dataBaseHelper.traineeCheckEmailPassword(em, pass);
@@ -85,13 +78,17 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, AdminHomeView.class));
                 else if(b4)
                     startActivity(new Intent(MainActivity.this, TraineeHomeView.class));
-                else
-                    startActivity(new Intent(MainActivity.this, InstructorHomeView.class));
-
+                else {
+                    //Instructor instructor = dataBaseHelper.getInstructorData(em);
+                    Intent i = new Intent(MainActivity.this, InstructorHome.class);
+                    //i.putExtra("instructor", instructor); //send the new Instructor object to the next intent
+                    i.putExtra("email", em);
+                    startActivity(i);
+                }
                 finish(); //close this activity
             }
             else {
-                Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Login Failed!, wrong password/email", Toast.LENGTH_SHORT).show();
             }
         }
     }

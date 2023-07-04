@@ -1,15 +1,19 @@
 package com.example.trainingcenterproject;
 
+import android.widget.ImageView;
+
+import java.sql.Blob;
+
 public class User {
     private String firstName;
     private String secondName;
     private String email;
     private String password;
-    private String photo;
+    private byte[]  photo;
 
     public User() {
     }
-    public User(String firstName, String secondName, String email, String password, String photo) {
+    public User(String firstName, String secondName, String email, String password, byte[]  photo) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
@@ -49,11 +53,11 @@ public class User {
         this.password = password;
     }
 
-    public String getPhoto() {
+    public byte[]  getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(byte[]  photo) {
         this.photo = photo;
     }
 
