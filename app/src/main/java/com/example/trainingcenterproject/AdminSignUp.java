@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class AdminSignUp extends AppCompatActivity {
@@ -23,6 +25,9 @@ public class AdminSignUp extends AppCompatActivity {
     private Uri selectedImageUri;
     private static final int PICK_IMAGE_REQUEST = 1;
     Button imgBtn;
+    Bitmap bitmap;
+    ByteArrayOutputStream objectByteArrayOutputStream ;
+    private byte[] imageInBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,21 +64,32 @@ public class AdminSignUp extends AppCompatActivity {
         boolean b3 = checkEmail();
         boolean b4 = checkPassword();
         boolean b5 = checkPasswordConfirmation();
-        boolean b6 = checkImage();
+        //boolean b6 = checkImage();
+        boolean b6 = true;
 
-        if(b1 && b2 && b3 && b4 && b5 && b6){
+        if(b1 && b2 && b3 && b4 && b5 && b6 ){
             Toast.makeText(AdminSignUp.this, "Successful SignIn", Toast.LENGTH_SHORT).show();
             String name1 = firstName.getText().toString();
             String name2 = secondName.getText().toString();
             String mail = email.getText().toString();
             String pass = password.getText().toString();
 
-            Admin newAdmin =new Admin(name1,name2,mail,pass,selectedImageUri.toString());
+            Admin newAdmin =new Admin(name1,name2,mail,pass,bitmap);
             DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
             dataBaseHelper.insertAdmin(newAdmin);
 
-            //go to admin profile
-            startActivity(new Intent(AdminSignUp.this, AdminHomeView.class));
+            Intent intent = new Intent(AdminSignUp.this, AdminHomeView.class);
+            intent.putExtra("name1",name1);
+            intent.putExtra("name2",name2);
+            intent.putExtra("mail",mail);
+
+            Bitmap imageToStoreBitmap = ((BitmapDrawable) photo.getDrawable()).getBitmap();
+            objectByteArrayOutputStream = new ByteArrayOutputStream();
+            imageToStoreBitmap.compress(Bitmap.CompressFormat.JPEG,100,objectByteArrayOutputStream);
+            imageInBytes = objectByteArrayOutputStream.toByteArray();
+            intent.putExtra("photo",imageInBytes);
+
+            startActivity(intent);
             this.finish(); //close this activity
         }
         else{
@@ -218,7 +234,7 @@ public class AdminSignUp extends AppCompatActivity {
             selectedImageUri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
                 photo.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();

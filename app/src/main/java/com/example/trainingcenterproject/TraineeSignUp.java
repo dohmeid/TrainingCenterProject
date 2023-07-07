@@ -24,6 +24,7 @@ public class TraineeSignUp extends AppCompatActivity {
     private Uri selectedImageUri;
     private static final int PICK_IMAGE_REQUEST = 1;
     Button imgBtn;
+    Bitmap bitmap;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -82,7 +83,7 @@ public class TraineeSignUp extends AppCompatActivity {
             dataBaseHelper.insertTrainee(newTrainee);
 
             //go to Trainee profile
-            startActivity(new Intent(TraineeSignUp.this, TraineeHomeView.class));
+            startActivity(new Intent(TraineeSignUp.this, AdminHomeView.class));
             finish(); //close this activity
 
         }
@@ -243,7 +244,7 @@ public class TraineeSignUp extends AppCompatActivity {
             selectedImageUri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
                 photo.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();

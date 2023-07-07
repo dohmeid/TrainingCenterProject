@@ -1,20 +1,38 @@
 package com.example.trainingcenterproject;
 
+import android.graphics.Bitmap;
+
 public class User {
     private String firstName;
     private String secondName;
     private String email;
     private String password;
     private String photo;
+    private Bitmap photos;
 
     public User() {
     }
-    public User(String firstName, String secondName, String email, String password, String photo) {
+    public User(String firstName, String secondName, String email, String password,String photo) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.password = password;
         this.photo = photo;
+    }
+    public User(String firstName, String secondName, String email, String password,Bitmap photo) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.email = email;
+        this.password = password;
+        this.photos = photo;
+    }
+
+    public Bitmap getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Bitmap photos) {
+        this.photos = photos;
     }
 
     public String getFirstName() {
@@ -53,9 +71,9 @@ public class User {
         return photo;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
+   public void setPhoto(String photo) {
+       this.photo = photo;
+   }
 
     @Override
     public String toString() {
