@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="21dp"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/stview0"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="10dp"
+            android:text="Enter Course Symbol"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginRight="35dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp">
+            <EditText
+                android:id="@+id/stcoursenum"
+                android:layout_width="280dp"
+                android:layout_height="51dp"
+
+                android:layout_marginBottom="20dp"
+                android:width="330dp"
+                android:height="20dp"
+                android:background="@drawable/roundbut"
+                android:ellipsize="end"
+                android:ems="10"
+                android:hint="."
+                android:inputType="text"
+                android:textAlignment="viewStart"
+                android:textColor="#FAFFFFFF"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/stbutton"
+                android:layout_width="75dp"
+                android:layout_height="51dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/roundedcorner"
+                android:text="View "
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#E0F0EA"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="?attr/actionBarSize"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

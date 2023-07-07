@@ -1,98 +1,64 @@
 package com.example.trainingcenterproject;
 
-public class Course {
+import android.graphics.Bitmap;
 
-    private int number;
+public class Course {
+    private int course_num;
     private String title;
-    private String mainTopics;
-    private String prerequisites;
-    private byte[]  photo;
-    private String instructorName;
-    private String registrationDeadline;
-    private String startDate;
+    private String symbol;
+    private String main_topics;
+    private String prereq;
+    private Bitmap photo;
+    private String instructor_name;
+    private String deadline;
+    private String start_date;
     private String schedule;
     private String venue;
-
 
     public Course(){
 
     }
-    public Course(int number, String title, String mainTopics, String prerequisites, byte[] photo,
-                  String instructorName, String registrationDeadline, String startDate, String schedule, String venue) {
-        this.number = number;
+
+    public Course(int course_num, String title,String symbol, String main_topics, String prereq, Bitmap photo) {
+        this.course_num = course_num;
         this.title = title;
-        this.mainTopics = mainTopics;
-        this.prerequisites = prerequisites;
+        this.symbol = symbol;
+        this.main_topics = main_topics;
+        this.prereq = prereq;
         this.photo = photo;
-        this.instructorName = instructorName;
-        this.registrationDeadline = registrationDeadline;
-        this.startDate = startDate;
+
+    }
+    public Course(String symbol, String instructor_name, String deadline, String start_date, String schedule, String venue){
+        this.symbol = symbol;
+        this.instructor_name = instructor_name;
+        this.deadline = deadline;
+        this.start_date = start_date;
         this.schedule = schedule;
         this.venue = venue;
     }
 
-    public int getNumber() {
-        return number;
+    public String getInstructor_name() {
+        return instructor_name;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setInstructor_name(String instructor_name) {
+        this.instructor_name = instructor_name;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDeadline() {
+        return deadline;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 
-    public String getMainTopics() {
-        return mainTopics;
+    public String getStart_date() {
+        return start_date;
     }
 
-    public void setMainTopics(String mainTopics) {
-        this.mainTopics = mainTopics;
-    }
-
-    public String getPrerequisites() {
-        return prerequisites;
-    }
-
-    public void setPrerequisites(String prerequisites) {
-        this.prerequisites = prerequisites;
-    }
-
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
-    }
-
-    public String getInstructorName() {
-        return instructorName;
-    }
-
-    public void setInstructorName(String instructorName) {
-        this.instructorName = instructorName;
-    }
-
-    public String getRegistrationDeadline() {
-        return registrationDeadline;
-    }
-
-    public void setRegistrationDeadline(String registrationDeadline) {
-        this.registrationDeadline = registrationDeadline;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
     }
 
     public String getSchedule() {
@@ -109,5 +75,66 @@ public class Course {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+
+    public int getCourse_num() {
+        return course_num;
+    }
+
+    public void setCourse_num(int course_num) {
+        this.course_num = course_num;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMain_topics() {
+        return main_topics;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setMain_topics(String main_topics) {
+        this.main_topics = main_topics;
+    }
+
+    public String getPrereq() {
+        return prereq;
+    }
+
+    public void setPrereq(String prereq) {
+        this.prereq = prereq;
+    }
+
+    public Bitmap getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "course_num=" + course_num +
+                ", title='" + title + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", main_topics='" + main_topics + '\'' +
+                ", prereq='" + prereq + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
     }
 }

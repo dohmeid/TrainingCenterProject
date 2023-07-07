@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="21dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="362dp"
+            android:layout_height="362dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="35dp"
+            android:src="@drawable/pic3" />
+
+        <TextView
+            android:id="@+id/delview0"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:text="Enter Course Symbol"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginRight="35dp"/>
+
+        <EditText
+            android:id="@+id/delcoursenum"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="20dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="symbol"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal"
+            android:layout_marginRight="35dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#E0F0EA"/>
+
+        <Button
+            android:id="@+id/delbutton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/roundbut"
+            android:text="Delete Course"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        
+    </LinearLayout>
+
+
+    
+
+
+</RelativeLayout>
