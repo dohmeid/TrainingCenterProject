@@ -9,13 +9,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class TraineeSignUp extends AppCompatActivity {
 
@@ -44,23 +45,19 @@ public class TraineeSignUp extends AppCompatActivity {
         imgBtn = findViewById(R.id.buttonImage);
         Button getStarted = findViewById(R.id.button);
 
-        imgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImagePicker();
-            }
-        });
+        imgBtn.setOnClickListener(v -> openImagePicker());
 
-        getStarted.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        getStarted.setOnClickListener(view -> {
+            try {
                 validateData();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
     }
 
 
-    void validateData() {
+    void validateData() throws IOException {
         boolean b1 = checkFirstName();
         boolean b2 = checkSecondName();
         boolean b3 = checkEmail();
@@ -78,7 +75,11 @@ public class TraineeSignUp extends AppCompatActivity {
             String num = number.getText().toString();
             String add = address.getText().toString();
 
-            Trainee newTrainee =new Trainee(name1,name2,mail,pass,selectedImageUri.toString(),num,add);
+            String img = selectedImageUri.toString();
+            byte[] imageBytes = convertImageUriToByteArray(selectedImageUri);
+
+
+            Trainee newTrainee =new Trainee(name1,name2,mail,pass,imageBytes,num,add);
             DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
             dataBaseHelper.insertTrainee(newTrainee);
 
@@ -193,7 +194,7 @@ public class TraineeSignUp extends AppCompatActivity {
     }
 
     boolean checkPhoto() {
-        if(photo == null){
+        if(selectedImageUri == null){
             Toast toast =Toast.makeText(TraineeSignUp.this, "Please Attach your photo",Toast.LENGTH_SHORT);
             toast.show();
             return false;
@@ -250,6 +251,22 @@ public class TraineeSignUp extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+
+
+    private byte[] convertImageUriToByteArray(Uri imageUri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(imageUri);
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+
+        return byteBuffer.toByteArray();
     }
 
 }
