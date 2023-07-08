@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="21dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/addview0"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="10dp"
+            android:text="Course Symbol"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginRight="35dp"/>
+
+        <EditText
+            android:id="@+id/courseSymbol"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="20dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="symbol"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal"
+            android:layout_marginRight="35dp"/>
+
+        <TextView
+            android:id="@+id/addview1"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Course Title"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginRight="35dp"/>
+
+        <EditText
+            android:id="@+id/courseTitle"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="20dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Title"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal"
+            android:layout_marginRight="35dp"/>
+
+        <TextView
+            android:id="@+id/addview2"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Course Main Topics"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginRight="35dp"/>
+
+        <EditText
+            android:id="@+id/courseMainTopics"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="20dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Main topics"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal"
+            android:layout_marginRight="35dp"/>
+
+        <TextView
+            android:id="@+id/addview3"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Course Prerequisites"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginRight="35dp"/>
+
+        <EditText
+            android:id="@+id/coursePrerequisites"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="20dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Prerequisites"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal"
+            android:layout_marginRight="35dp"/>
+
+        <TextView
+            android:id="@+id/addview4"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Course Photo"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginRight="35dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="35dp"
+            >
+            <ImageView
+                android:id="@+id/coursePhoto"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_image"
+                android:layout_marginRight="35dp"
+                />
+            <Button
+                android:id="@+id/imbut"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="choose photo"
+                android:textColor="#FFFF"
+                android:background="@drawable/roundedcorner"/>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#E0F0EA"/>
+
+        <Button
+            android:id="@+id/addbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/roundbut"
+            android:text="Create Course"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+</RelativeLayout>

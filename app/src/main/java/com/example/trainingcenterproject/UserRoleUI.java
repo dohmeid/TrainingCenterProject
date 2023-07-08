@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 public class UserRoleUI extends AppCompatActivity {
@@ -19,40 +18,28 @@ public class UserRoleUI extends AppCompatActivity {
         Button instructor = findViewById(R.id.buttonInstructor);
         Button back = findViewById(R.id.buttonBack);
 
-        admin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(UserRoleUI.this, AdminSignUp.class);
-                startActivity(i);
-                finish(); //close this activity
-            }
+        admin.setOnClickListener(view -> {
+            Intent i = new Intent(UserRoleUI.this, AdminSignUp.class);
+            startActivity(i);
+            finish(); //close this activity
         });
 
-        trainee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(UserRoleUI.this, TraineeSignUp.class);
-                startActivity(i);
-                finish(); //close this activity
-            }
+        trainee.setOnClickListener(view -> {
+            Intent i = new Intent(UserRoleUI.this, TraineeSignUp.class);
+            startActivity(i);
+            finish(); //close this activity
         });
 
-        instructor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(UserRoleUI.this, InstructorSignUp.class);
-                startActivity(i);
-                finish(); //close this activity
-            }
+        instructor.setOnClickListener(view -> {
+            Intent i = new Intent(UserRoleUI.this, InstructorSignUp.class);
+            startActivity(i);
+            finish(); //close this activity
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(UserRoleUI.this, MainActivity.class);
-                startActivity(i);
-                finish(); //close this activity
-            }
+        back.setOnClickListener(view -> {
+            Intent i = new Intent(UserRoleUI.this, MainActivity.class);
+            startActivity(i);
+            finish(); //close this activity
         });
     }
 }

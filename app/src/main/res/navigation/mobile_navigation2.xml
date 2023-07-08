@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation2"
+    app:startDestination="@+id/nav_viewProfile">
+
+    <fragment
+        android:id="@+id/nav_viewProfile"
+        android:name="com.example.trainingcenterproject.ui.InstructorProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_instructor_profile" >
+        <argument
+            android:name="mail"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_editProfile"
+        android:name="com.example.trainingcenterproject.ui.InstructorEditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_instructor_edit_profile">
+        <argument
+            android:name="mail"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_schedule"
+        android:name="com.example.trainingcenterproject.ui.InstructorScheduleFragment"
+        android:label="View schedule"
+        tools:layout="@layout/fragment_instructor_schedule" />
+
+    <fragment
+        android:id="@+id/nav_courses"
+        android:name="com.example.trainingcenterproject.ui.InstructorCoursesFragment"
+        android:label="View courses history"
+        tools:layout="@layout/fragment_instructor_courses" />
+
+    <fragment
+        android:id="@+id/nav_students"
+        android:name="com.example.trainingcenterproject.ui.InstructorStudentsFragment"
+        android:label="View students"
+        tools:layout="@layout/fragment_instructor_courses" />
+
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.trainingcenterproject.ui.InstructorLogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_instructor_students" />
+
+
+</navigation>

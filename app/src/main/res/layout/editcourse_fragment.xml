@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/editview0"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="10dp"
+            android:text="Enter Course Symbol"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editcourssymbol"
+                android:layout_width="270dp"
+                android:layout_height="51dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:width="330dp"
+                android:height="20dp"
+                android:background="@drawable/roundbut"
+                android:ellipsize="end"
+                android:ems="10"
+                android:hint="."
+                android:inputType="text"
+                android:textAlignment="viewStart"
+                android:textColor="@color/purple_700"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/editsearch"
+                android:layout_width="80dp"
+                android:layout_height="51dp"
+                android:layout_marginRight="35dp"
+                android:background="@drawable/roundedcorner"
+                android:text="search"
+                android:textColor="#FAFFFFFF" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/editview2"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="5dp"
+            android:text="Course Title"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editcourseTitle"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="10dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:textColorHint="@color/white"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Title"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal" />
+
+
+        <TextView
+            android:id="@+id/newsymbol"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="5dp"
+            android:text="Course Symbol"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editcoursenewsym"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="10dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Symbol"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/editview3"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="5dp"
+            android:text="Course Main Topics"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editcourseMainTopics"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="10dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Main topics"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/editview4"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="5dp"
+            android:text="Course Prerequisites"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editcoursePrerequisites"
+            android:layout_width="362dp"
+            android:layout_height="51dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="10dp"
+            android:width="330dp"
+            android:height="20dp"
+            android:background="@drawable/roundedcorner"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="Prerequisites"
+            android:inputType="text"
+            android:textColorHint="@color/white"
+            android:textAlignment="viewStart"
+            android:textColor="#FAFFFFFF"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/editview5"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="5dp"
+            android:text="Course Photo"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/editcoursePhoto"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_image" />
+
+            <Button
+                android:id="@+id/editimbut"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="17dp"
+                android:background="@drawable/roundedcorner"
+                android:text="choose photo"
+                android:textColor="#FFFF" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#E0F0EA" />
+
+        <Button
+            android:id="@+id/editbutton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/roundbut"
+            android:text="Edit Course"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

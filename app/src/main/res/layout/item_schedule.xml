@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="#503A65"
+        />
+
+    <TextView
+        android:id="@+id/TextViewDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunday, Monday"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingLeft="30dp"
+        android:paddingTop="5dp"
+        android:textColor="#503A65"
+        android:fontFamily="sans-serif-black"/>
+    <TextView
+        android:id="@+id/TextViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="from 10:00 AM to 11:25 AM"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:textColor="#503A65"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-thin"/>
+
+    <TextView
+        android:id="@+id/TextViewClassName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Java class"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:textColor="#503A65"
+        android:textSize="15sp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <!-- Add other views here to display other course details -->
+
+</LinearLayout>

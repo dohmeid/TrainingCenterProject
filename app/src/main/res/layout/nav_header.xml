@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="176dp"
+    android:background="@color/white"
+    android:gravity="bottom"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Light"
+    android:id="@+id/linearLayout">
+
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:adjustViewBounds="false"
+        android:src="@mipmap/ic_launcher_round"
+        tools:layout_conversion_absoluteHeight="72dp"
+        tools:layout_conversion_absoluteWidth="72dp"
+        app:shapeAppearanceOverlay="@style/circular"
+        android:padding="5dp"
+        app:strokeWidth="5dp"
+        app:strokeColor="#3C2A4D"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="41dp"
+        android:id="@+id/imageProfile"
+        android:scaleType="fitCenter" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="17dp"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="15dp"
+            android:text="USER NAME"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#3C2A4D"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:layout_conversion_absoluteHeight="100dp"
+            tools:layout_conversion_absoluteWidth="77dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="113dp"
+            android:id="@+id/usr_name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="info@codinginflow.com"
+            android:textColor="#3C2A4D"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="147dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="140dp"
+            tools:textColor="@color/purple_700"
+            android:id="@+id/use_email"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
