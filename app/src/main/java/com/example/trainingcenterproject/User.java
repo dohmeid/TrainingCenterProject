@@ -7,24 +7,24 @@ public class User {
     private String secondName;
     private String email;
     private String password;
-    private String photo;
+    private byte[]  photo;
     private Bitmap photos;
 
     public User() {
     }
-    public User(String firstName, String secondName, String email, String password,String photo) {
+    public User(String firstName, String secondName, String email, String password,byte[]  photo) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.password = password;
         this.photo = photo;
     }
-    public User(String firstName, String secondName, String email, String password,Bitmap photo) {
+    public User(String firstName, String secondName, String email, String password,Bitmap photos) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.password = password;
-        this.photos = photo;
+        this.photos = photos;
     }
 
     public Bitmap getPhotos() {
@@ -67,11 +67,11 @@ public class User {
         this.password = password;
     }
 
-    public String getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-   public void setPhoto(String photo) {
+   public void setPhoto(byte[] photo) {
        this.photo = photo;
    }
 

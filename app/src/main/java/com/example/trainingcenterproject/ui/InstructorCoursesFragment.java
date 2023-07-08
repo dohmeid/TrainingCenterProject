@@ -40,16 +40,6 @@ public class InstructorCoursesFragment extends Fragment {
             DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
             Instructor user = dataBaseHelper.getInstructorData(email);
             String name = user.getFirstName() + " " + user.getSecondName();
-            Course c1 = new Course(1,"java","oob","c",null,
-                    name,"2023-4-1","2023-1-1","idk","MASRI101");
-            Course c2 = new Course(2,"c","oob","c++",null,
-                    name,"2023-4-1","2023-1-1","idk","MASRI101");
-            Course c3 = new Course(3,"data","oob","c++",null,
-                    name,"2023-4-1","2023-1-1","idk","MASRI101");
-
-            //dataBaseHelper.insertCourse(c1);
-            //dataBaseHelper.insertCourse(c2);
-            //dataBaseHelper.insertCourse(c3);
             courses = dataBaseHelper.getInstructorCourses(email);
         }
         else{

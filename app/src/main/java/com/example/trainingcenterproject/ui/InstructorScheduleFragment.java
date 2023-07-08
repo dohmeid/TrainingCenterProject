@@ -38,13 +38,6 @@ public class InstructorScheduleFragment extends Fragment {
             DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
             Instructor user = dataBaseHelper.getInstructorData(email);
             String name = user.getFirstName() + " " + user.getSecondName();
-            Course c1 = new Course(4,"java","oob","c",null,
-                    name,"2023-4-1","2023-1-1","Monday, Wednesday;from 10:00 AM to 11:25 AM","MASRI101");
-            Course c2 = new Course(5,"c","oob","c++",null,
-                    name,"2023-4-1","2023-1-1","Saturday, Monday;from 12:00 AM to 1:25 PM","MASRI101");
-
-            //dataBaseHelper.insertCourse(c1);
-           // dataBaseHelper.insertCourse(c2);
             courses = dataBaseHelper.getInstructorCourses(email);
         }
         else{

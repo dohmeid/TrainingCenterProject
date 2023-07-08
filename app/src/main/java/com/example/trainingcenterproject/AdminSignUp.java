@@ -64,10 +64,9 @@ public class AdminSignUp extends AppCompatActivity {
         boolean b3 = checkEmail();
         boolean b4 = checkPassword();
         boolean b5 = checkPasswordConfirmation();
-        //boolean b6 = checkImage();
-        boolean b6 = true;
+        boolean b6 = checkImage();
 
-        if(b1 && b2 && b3 && b4 && b5 && b6 ){
+        if(b1 && b2 && b3 && b4 && b5 && b6){
             Toast.makeText(AdminSignUp.this, "Successful SignIn", Toast.LENGTH_SHORT).show();
             String name1 = firstName.getText().toString();
             String name2 = secondName.getText().toString();
@@ -141,12 +140,17 @@ public class AdminSignUp extends AppCompatActivity {
     boolean checkEmail(){
         String mail = email.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
         if (mail.isEmpty() || mail.trim().isEmpty()) {
             email.setError("This field is empty!");
             return false;
         }
         else if (!mail.matches(emailPattern)) {
             email.setError("Invalid email address");
+            return false;
+        }
+        else if(!dataBaseHelper.isUniqueEmail(mail)){
+            email.setError("This email is already used, please use a unique email address");
             return false;
         }
         else {
@@ -157,7 +161,7 @@ public class AdminSignUp extends AppCompatActivity {
 
     boolean checkPassword() {
         String str = password.getText().toString();
-
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
             return false;
@@ -185,6 +189,10 @@ public class AdminSignUp extends AppCompatActivity {
             password.setError("Password must contain at least one uppercase letter.");
             return false;
         }
+        else if(!dataBaseHelper.isUniquePassword(str)){
+            password.setError("This password is already taken, enter a unique password");
+            return false;
+        }
         else {
             password.setError(null);
             return true;
@@ -210,11 +218,12 @@ public class AdminSignUp extends AppCompatActivity {
     }
 
     boolean checkImage(){
-        //photo.setImageResource(R.drawable.placeholder)
-        if(photo == null){
-            Toast toast =Toast.makeText(AdminSignUp.this, "Please Attach your photo",Toast.LENGTH_SHORT);
-            toast.show();
-            return false;
+        if(photo == null) {
+            if (selectedImageUri == null) {
+                Toast toast = Toast.makeText(AdminSignUp.this, "Please Attach your photo", Toast.LENGTH_SHORT);
+                toast.show();
+                return false;
+            }
         }
         return true;
     }

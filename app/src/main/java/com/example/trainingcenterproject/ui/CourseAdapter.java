@@ -34,7 +34,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
         // Bind the course data to the views in the ViewHolder
         holder.titleTextView.setText(course.getTitle());
-        holder.numberTextView.setText(String.valueOf(course.getNumber()));
+        holder.numberTextView.setText(String.valueOf(course.getCourse_num()));
+        holder.symbolTextView.setText(String.valueOf(course.getSymbol()));
         // ... Bind other views
 
         // Set any click listeners or additional logic here if needed
@@ -49,13 +50,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
         TextView titleTextView;
         TextView numberTextView;
-        // ... Declare other views
+        TextView symbolTextView;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
 
             titleTextView = itemView.findViewById(R.id.titleTextView);
             numberTextView = itemView.findViewById(R.id.numberTextView);
+            symbolTextView = itemView.findViewById(R.id.symbolTextView);
             // ... Initialize other views
         }
     }

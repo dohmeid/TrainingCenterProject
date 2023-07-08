@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             String em = email.getText().toString();
             String pass = password.getText().toString();
             dataBaseHelper = new DataBaseHelper(this);
-            //DataBaseHelper dataBaseHelper =new DataBaseHelper(AddCustomerActivity.this,"DB_NAME_EXP4",null,1);
 
             Cursor c3 = dataBaseHelper.adminCheckEmailPassword(em, pass);
             if (c3.getCount() > 0) {
@@ -111,19 +110,22 @@ public class MainActivity extends AppCompatActivity {
                         imageInBytes = objectByteArrayOutputStream.toByteArray();
                         intent.putExtra("photo", imageInBytes);
                         startActivity(intent);
-
                     }
-
                 }
                 else if(b4)
                     startActivity(new Intent(MainActivity.this, TraineeHomeView.class));
-                else
-                    startActivity(new Intent(MainActivity.this, InstructorHomeView.class));
+                else {
+                    //Instructor instructor = dataBaseHelper.getInstructorData(em);
+                    Intent i = new Intent(MainActivity.this, InstructorHome.class);
+                    //i.putExtra("instructor", instructor); //send the new Instructor object to the next intent
+                    i.putExtra("email", em);
+                    startActivity(i);
+                }
 
                 finish(); //close this activity
             }
             else {
-                Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Login Failed!, wrong password/email", Toast.LENGTH_SHORT).show();
             }
         }
     }

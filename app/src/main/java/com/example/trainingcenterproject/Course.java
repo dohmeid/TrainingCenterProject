@@ -7,7 +7,7 @@ public class Course {
     private String title;
     private String symbol;
     private String main_topics;
-    private String prereq;
+    private String prerequisites;
     private Bitmap photo;
     private String instructor_name;
     private String deadline;
@@ -16,17 +16,21 @@ public class Course {
     private String venue;
 
     public Course(){
-
     }
 
-    public Course(int course_num, String title,String symbol, String main_topics, String prereq, Bitmap photo) {
+    public Course(int course_num, String title,String symbol) {
+        this.course_num = course_num;
+        this.title = title;
+        this.symbol = symbol;
+    }
+
+    public Course(int course_num, String title,String symbol, String main_topics, String prerequisites, Bitmap photo) {
         this.course_num = course_num;
         this.title = title;
         this.symbol = symbol;
         this.main_topics = main_topics;
-        this.prereq = prereq;
+        this.prerequisites = prerequisites;
         this.photo = photo;
-
     }
     public Course(String symbol, String instructor_name, String deadline, String start_date, String schedule, String venue){
         this.symbol = symbol;
@@ -111,11 +115,11 @@ public class Course {
     }
 
     public String getPrereq() {
-        return prereq;
+        return prerequisites;
     }
 
-    public void setPrereq(String prereq) {
-        this.prereq = prereq;
+    public void setPrereq(String prerequisites) {
+        this.prerequisites = prerequisites;
     }
 
     public Bitmap getPhoto() {
@@ -133,7 +137,7 @@ public class Course {
                 ", title='" + title + '\'' +
                 ", symbol='" + symbol + '\'' +
                 ", main_topics='" + main_topics + '\'' +
-                ", prereq='" + prereq + '\'' +
+                ", prerequisites='" + prerequisites + '\'' +
                 ", photo='" + photo + '\'' +
                 '}';
     }
