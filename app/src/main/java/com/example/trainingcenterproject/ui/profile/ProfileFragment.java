@@ -44,6 +44,7 @@ public class ProfileFragment extends Fragment {
     Button save, cancel;
     private Uri selectedImageUri;
     byte[] ImageBytes;
+    Cursor customersCursor;
 
     //SharedPreferences sharedPreferences;
 
@@ -79,10 +80,11 @@ public class ProfileFragment extends Fragment {
             //String mail = sharedPreferences.getString("email", "");
 
             DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
-            Cursor customersCursor = dataBaseHelper.getTrainee(mail);
+            customersCursor = dataBaseHelper.getTrainee(mail);
+            customersCursor.moveToFirst();
 
-            while( customersCursor != null && customersCursor.moveToFirst() ) {
-                customersCursor.moveToFirst();
+            //while( customersCursor != null && customersCursor.moveToFirst() ) {
+
                 name.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
                 userName.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
                 email.setText(customersCursor.getString(0));
@@ -96,7 +98,7 @@ public class ProfileFragment extends Fragment {
                     Bitmap imageBitmap = BitmapFactory.decodeByteArray(ImageBytes, 0, ImageBytes.length); // Convert the image bytes back to a Bitmap
                     photo.setImageBitmap(imageBitmap);
                 }
-            }
+         //   }
 
             showHideBtn.setOnClickListener(view -> {
                 if (show == 1) {
@@ -143,6 +145,30 @@ public class ProfileFragment extends Fragment {
         catch (Exception e) {
             Log.e(TAG, "onCreateView", e);
             throw e;
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        customersCursor.moveToFirst();
+
+        //while( customersCursor != null && customersCursor.moveToFirst() ) {
+
+        name.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
+        userName.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
+        email.setText(customersCursor.getString(0));
+        userEmail.setText(customersCursor.getString(0));
+        userEmail.setEnabled(false);
+        password.setText(customersCursor.getString(3));
+        phone.setText(customersCursor.getString(5));
+        address.setText(customersCursor.getString(6));
+        if (customersCursor.getBlob(4) != null) {
+            ImageBytes = customersCursor.getBlob(4);
+            Bitmap imageBitmap = BitmapFactory.decodeByteArray(ImageBytes, 0, ImageBytes.length); // Convert the image bytes back to a Bitmap
+            photo.setImageBitmap(imageBitmap);
         }
     }
 
