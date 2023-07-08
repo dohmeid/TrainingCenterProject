@@ -66,9 +66,9 @@ public class AdminSignUp extends AppCompatActivity {
             String mail = email.getText().toString();
             String pass = password.getText().toString();
 
-            Admin newAdmin =new Admin(name1,name2,mail,pass," ");
-            DataBaseHelper dataBaseHelper =new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
-            dataBaseHelper.insertAdmin(newAdmin);
+            //Admin newAdmin =new Admin(name1,name2,mail,pass, );
+            DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
+            //dataBaseHelper.insertAdmin(newAdmin);
 
             //go to admin profile
             //Intent i = new Intent(MainActivity.this, person.class);

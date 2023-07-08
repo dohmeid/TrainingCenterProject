@@ -12,21 +12,10 @@
         android:theme="@style/Theme.TrainingCenterProject"
         tools:targetApi="31">
         <activity
-            android:name=".TraineeProfile"
-            android:exported="false" />
-
-        <activity
-            android:name=".CoursesHistory"
-            android:exported="false" />
-        <activity
-            android:name=".TraineeStudiedCourses"
-            android:exported="false" />
-        <activity
-            android:name=".TraineeCourseSeach"
-            android:exported="false" />
-        <activity
-            android:name=".TraineeHomeView"
-            android:exported="false" />
+            android:name=".TraineeHomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_trainees_available_courses"
+            android:theme="@style/Theme.TrainingCenterProject.NoActionBar" />
         <activity
             android:name=".InstructorSignUp"
             android:exported="false" />

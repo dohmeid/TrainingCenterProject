@@ -14,7 +14,7 @@ public class Instructor extends User {
 
     }
 
-    public Instructor(String firstName, String secondName, String email, String password, String photo, String mobile_number, String address, String specialization, String degree, ArrayList<String> courses) {
+    public Instructor(String firstName, String secondName, String email, String password, byte[] photo, String mobile_number, String address, String specialization, String degree, ArrayList<String> courses) {
         super(firstName, secondName, email, password, photo);
         this.mobile_number = mobile_number;
         this.address = address;

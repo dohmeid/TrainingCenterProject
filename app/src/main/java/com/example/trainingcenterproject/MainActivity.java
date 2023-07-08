@@ -7,13 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.trainingcenterproject.ui.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         if (b1 && b2) {
             String em = email.getText().toString();
             String pass = password.getText().toString();
-            dataBaseHelper = new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
+            dataBaseHelper = new DataBaseHelper(this);
             //DataBaseHelper dataBaseHelper =new DataBaseHelper(AddCustomerActivity.this,"DB_NAME_EXP4",null,1);
 
             int role = dataBaseHelper.checkEmailPassword(em, pass);
@@ -84,7 +85,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "You are Admin!", Toast.LENGTH_SHORT).show();
                 } else if (role == 2) {
                     // Trainee User
-                    Intent i = new Intent(MainActivity.this, TraineeHomeView.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", email.getText().toString());
+//                    ProfileFragment fragobj = new ProfileFragment();
+//                    fragobj.setArguments(bundle);
+
+                    Intent i = new Intent(MainActivity.this, TraineeHomeActivity.class);
                     i.putExtra("email", em);
                     startActivity(i);
                     this.finish(); //close this activity

@@ -17,7 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class TraineeSignUp extends AppCompatActivity {
 
@@ -55,13 +57,17 @@ public class TraineeSignUp extends AppCompatActivity {
         getStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validateData();
+                try {
+                    validateData();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
 
 
-    void validateData() {
+    void validateData() throws IOException {
         boolean b1 = checkFirstName();
         boolean b2 = checkSecondName();
         boolean b3 = checkEmail();
@@ -78,15 +84,16 @@ public class TraineeSignUp extends AppCompatActivity {
             String pass = password.getText().toString();
             String num = number.getText().toString();
             String add = address.getText().toString();
+            byte[] imageBytes = convertImageUriToByteArray(selectedImageUri);
 
-            Trainee newTrainee =new Trainee(name1,name2,mail,pass,selectedImageUri.toString(),num,add);
-            DataBaseHelper dataBaseHelper =new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
+            Trainee newTrainee =new Trainee(name1,name2,mail,pass,imageBytes,num,add);
+            DataBaseHelper dataBaseHelper =new DataBaseHelper(this);
             dataBaseHelper.insertTrainee(newTrainee);
 
             saveSignUpDetails();
 
             //go to Trainee profile
-            Intent intent = new Intent(TraineeSignUp.this, TraineeHomeView.class);
+            Intent intent = new Intent(TraineeSignUp.this, TraineeHomeActivity.class);
             intent.putExtra("email", email.getText().toString());
             startActivity(intent);
             finish(); //close this activity
@@ -158,11 +165,11 @@ public class TraineeSignUp extends AppCompatActivity {
     boolean checkPassword() {
         String str = password.getText().toString();
         String str2 = confirmPass.getText().toString();
-        char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
-        boolean formatFlag = false;
+//        char ch;
+//        boolean capitalFlag = false;
+//        boolean lowerCaseFlag = false;
+//        boolean numberFlag = false;
+//        boolean formatFlag = false;
 
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
@@ -203,7 +210,7 @@ public class TraineeSignUp extends AppCompatActivity {
     }
 
     boolean checkPhoto() {
-        if(photo == null){
+        if(selectedImageUri == null){
             Toast toast =Toast.makeText(TraineeSignUp.this, "Please Attach your photo",Toast.LENGTH_SHORT);
             toast.show();
             return false;
@@ -267,7 +274,21 @@ public class TraineeSignUp extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("Email", email.getText().toString());
         editor.putBoolean("PREF_IS_LOGIN_KEY", true);
-        editor.commit();
+        editor.apply();
+    }
+
+    private byte[] convertImageUriToByteArray(Uri imageUri) throws IOException {
+        @SuppressLint("Recycle") InputStream inputStream = getContentResolver().openInputStream(imageUri);
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+
+        return byteBuffer.toByteArray();
     }
 
 }

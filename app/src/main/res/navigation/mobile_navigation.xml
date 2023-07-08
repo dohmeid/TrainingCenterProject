@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_profile">
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.trainingcenterproject.ui.profile.ProfileFragment"
+        android:label="profile"
+        tools:layout="@layout/fragment_view_profile" />
+
+    <fragment
+        android:id="@+id/nav_available_courses"
+        android:name="com.example.trainingcenterproject.ui.availablecourses.AvailableCoursesFragment"
+        android:label="available_courses"
+        tools:layout="@layout/fragment_available_courses" />
+
+    <fragment
+        android:id="@+id/nav_search_courses"
+        android:name="com.example.trainingcenterproject.ui.searchcourses.SearchCoursesFragment"
+        android:label="search_courses"
+        tools:layout="@layout/fragment_search_courses" />
+
+    <fragment
+        android:id="@+id/nav_studied_course"
+        android:name="com.example.trainingcenterproject.ui.TraineeStudiedCoursesFragment"
+        android:label="search_courses"
+        tools:layout="@layout/fragment_trainee_studied_courses"/>
+
+    <fragment
+        android:id="@+id/nav_courses_history"
+    android:name="com.example.trainingcenterproject.ui.CoursesHistoryFragment"
+    android:label="search_courses"
+    tools:layout="@layout/fragment_courses_history" />
+
+    <fragment
+        android:id="@+id/nav_log_out"
+        android:name="com.example.trainingcenterproject.ui.TraineeLogOutFragement"
+        android:label="search_courses"
+        tools:layout="@layout/fragment_trainee_log_out_fragement" />
+</navigation>

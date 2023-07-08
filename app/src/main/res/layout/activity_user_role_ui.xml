@@ -8,13 +8,13 @@
     tools:context=".UserRoleUI">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewPhoto"
         android:layout_width="match_parent"
         android:layout_height="320dp"
         app:srcCompat="@drawable/pic2" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewEmail"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:text="Which option best describes your current role?"

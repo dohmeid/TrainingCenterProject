@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TraineeCourseSeach">
+    tools:context=".ui.searchcourses.SearchCoursesFragment">
 
     <TextView
         android:id="@+id/textView4"
@@ -12,44 +12,70 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="17dp"
-        android:text="Enter The name of the course"
+        android:text="Enter The name of the course:"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.1"
+        android:textAlignment="center"
+        android:textColor="#3B2A4C"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/courseName"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginStart="71dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
-        android:inputType="text"
         android:hint="Course Name"
+        android:inputType="text"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.05"
+        android:paddingStart="10dp"
+        android:textColor="#3B2A4C"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/searchBtn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
         android:layout_marginStart="130dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="131dp"
+        android:backgroundTint="#3C2A4D"
         android:text="Search"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/courseName" />
 
-    <LinearLayout
-        android:id="@+id/resultsLayout"
+    <ScrollView
         android:layout_width="409dp"
-        android:layout_height="418dp"
-        android:layout_marginStart="1dp"
+        android:layout_height="420dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="1dp"
-        android:orientation="vertical"
+        android:contentDescription="@string/scroll_view_speakable_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBtn"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/searchBtn">
+
+        <LinearLayout
+            android:id="@+id/resultsLayout"
+            android:layout_width="409dp"
+            android:layout_height="418dp"
+            android:layout_marginStart="1dp"
+
+            android:orientation="vertical"></LinearLayout>
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

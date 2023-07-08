@@ -1,45 +1,87 @@
 package com.example.trainingcenterproject;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.PasswordTransformationMethod;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.trainingcenterproject.databinding.ActivityTraineesHomeBinding;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.IOException;
 
-public class TraineeProfile extends AppCompatActivity {
+public class TraineeHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityTraineesHomeBinding binding;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    Uri selectedImageUri;
     TextView name, email;
-    ImageView photo, showHideBtn;
+    ImageView photo, showHideBtn, profilePhoto;
     int show = 0;
     EditText userName, userEmail, password, phone, address;
     Button save, cancel;
-    private Uri selectedImageUri;
 
-   // DataBaseHelper dataBaseHelper = new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
 
-    @SuppressLint({"SetTextI18n", "MissingInflatedId"})
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainee_profile);
 
-        name = findViewById(R.id.name);
+        //binding = ActivityTraineesHomeBinding.inflate(getLayoutInflater());
+        //setContentView(binding.getRoot());//
+        setContentView(R.layout.activity_trainees_home) ;
+        DrawerLayout drawer = findViewById(R.id.drawer_layout) ;
+        //setSupportActionBar(binding.appBarInstructorHome.toolbar);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar) ;
+        setSupportActionBar(toolbar) ;
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(view -> {
+//            Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+//        });
+        //DrawerLayout drawer = binding.drawerLayout;
+
+//        NavigationView navigationView = binding.navView;
+        NavigationView navigationView = findViewById(R.id.nav_view) ;
+        NavController navController = Navigation.findNavController(TraineeHomeActivity.this, R.id.nav_host_fragment_content_trainees);
+
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_profile, R.id.nav_available_courses,
+                R.id.nav_search_courses, R.id.nav_studied_course, R.id.nav_courses_history,
+                R.id.nav_log_out).setOpenableLayout(drawer).build();
+
+        NavigationUI.setupActionBarWithNavController(TraineeHomeActivity.this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+        //to change the header data into the registered instructor data
+        View headerView = navigationView.getHeaderView(0);
+        String mail = getIntent().getStringExtra("email");
+        Bundle bundle = new Bundle();
+        bundle.putString("email", mail);
+
+        name = findViewById(R.id.profileTraineeName);
         email = findViewById(R.id.tv_email);
-        photo = findViewById(R.id.imageView2);
+        photo = (ImageView) headerView.findViewById(R.id.imageViewPhoto);
+        profilePhoto  = findViewById(R.id.imageView2);
         userName = findViewById(R.id.TraineeName);
         userEmail = findViewById(R.id.TraineeEmail);
         password = findViewById(R.id.TraineePass);
@@ -49,11 +91,8 @@ public class TraineeProfile extends AppCompatActivity {
         save = findViewById(R.id.saveBtn);
         cancel = findViewById(R.id.cancelBtn);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-        String mail = sharedPreferences.getString("email", "");
-
-        DataBaseHelper dataBaseHelper =new DataBaseHelper(this, DataBaseHelper.databaseName, null, 1);
-        Cursor customersCursor = dataBaseHelper.getTrainees(mail);
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
+        Cursor customersCursor = dataBaseHelper.getTrainee(mail);
 
         customersCursor.moveToFirst();
         name.setText(customersCursor.getString(1) + " " + customersCursor.getString(2) );
@@ -64,6 +103,17 @@ public class TraineeProfile extends AppCompatActivity {
         password.setText(customersCursor.getString(3));
         phone.setText(customersCursor.getString(5));
         address.setText(customersCursor.getString(6));
+
+        byte[] img = customersCursor.getBlob(4);
+        Bitmap imageBitmap = BitmapFactory.decodeByteArray(img, 0, img.length); // Convert the image bytes back to a Bitmap
+        photo.setImageBitmap(imageBitmap);
+        profilePhoto.setImageBitmap(imageBitmap);
+
+        TextView navUsername = (TextView) headerView.findViewById(R.id.textViewName);
+        //String name = instructor.getFirstName() + instructor.getSecondName();
+        navUsername.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
+        TextView navEmail = (TextView) headerView.findViewById(R.id.textViewEmail);
+        navEmail.setText(customersCursor.getString(0));
 
         showHideBtn.setOnClickListener(view -> {
             if(show == 1){
@@ -76,10 +126,10 @@ public class TraineeProfile extends AppCompatActivity {
         });
 
 
-        cancel.setOnClickListener(view -> {
-            startActivity(new Intent(TraineeProfile.this, TraineeHomeView.class));
-            finish();
-        });
+//        cancel.setOnClickListener(view -> {
+//            startActivity(new Intent(TraineeHomeActivity.this, TraineeHomeActivity.class));
+//            finish();
+//        });
 
 
         photo.setOnClickListener(view -> openImagePicker());
@@ -96,13 +146,35 @@ public class TraineeProfile extends AppCompatActivity {
             String add = address.getText().toString();
 
             if(validateData(firstName, lastName, pass, mobile, add)){
-                dataBaseHelper.updateTrainee(mailAddress, firstName, lastName, pass, selectedImageUri.toString(), mobile, add);
+                dataBaseHelper.updateTrainee(mailAddress, firstName, lastName, pass, img, mobile, add);
                 name.setText(firstName + " " + lastName);
                 email.setText(mailAddress);
-                Toast.makeText(TraineeProfile.this, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TraineeHomeActivity.this, "Updated Successfully!", Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
+
+
+//        navController.navigate(R.id.nav_profile, bundle);
+//        navController.navigate(R.id.nav_available_courses, bundle);
+//         navController.navigate(R.id.nav_search_courses, bundle);
+//        navController.navigate(R.id.nav_studied_course, bundle);
+//        navController.navigate(R.id.nav_courses_history, bundle);
+//        navController.navigate(R.id.nav_log_out, bundle);
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_trainees);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
     private boolean validateData(StringBuilder firstName, String lastName, String pass, String mobile, String add) {
@@ -117,10 +189,10 @@ public class TraineeProfile extends AppCompatActivity {
             userName.requestFocus();
             return false;
         } else if(firstName.length() > 20){
-        userName.setError("Name is too long!");
-        userName.requestFocus();
-        return false;
-    }
+            userName.setError("Name is too long!");
+            userName.requestFocus();
+            return false;
+        }
         if (lastName.isEmpty()) {
             userName.setError("Trainee Name is required");
             userName.requestFocus();
@@ -204,6 +276,7 @@ public class TraineeProfile extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
                 photo.setImageBitmap(bitmap);
+                profilePhoto.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }

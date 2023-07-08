@@ -1,17 +1,19 @@
 package com.example.trainingcenterproject;
 
+import java.util.Date;
+
 public class Course {
     private int courseNumber;
     private String courseTitle;
     private String courseMainTopics;
     private String prerequisites;
     private String instructorName;
-    private String registrationDeadline;
-    private String courseStartDate;
+    private Date registrationDeadline;
+    private Date courseStartDate;
     private String courseSchedule;
     private String venue;
 
-    public Course(int courseNumber, String courseTitle, String courseMainTopics, String prerequisites, String instructorName, String registrationDeadline, String courseStartDate, String courseSchedule, String venue) {
+    public Course(int courseNumber, String courseTitle, String courseMainTopics, String prerequisites, String instructorName, Date registrationDeadline, Date courseStartDate, String courseSchedule, String venue) {
         this.courseNumber = courseNumber;
         this.courseTitle = courseTitle;
         this.courseMainTopics = courseMainTopics;
@@ -21,6 +23,22 @@ public class Course {
         this.courseStartDate = courseStartDate;
         this.courseSchedule = courseSchedule;
         this.venue = venue;
+    }
+    public Course(String courseTitle, String courseMainTopics, String prerequisites, String instructorName, Date registrationDeadline, Date courseStartDate, String courseSchedule, String venue) {
+        this.courseTitle = courseTitle;
+        this.courseMainTopics = courseMainTopics;
+        this.prerequisites = prerequisites;
+        this.instructorName = instructorName;
+        this.registrationDeadline = registrationDeadline;
+        this.courseStartDate = courseStartDate;
+        this.courseSchedule = courseSchedule;
+        this.venue = venue;
+    }
+
+    public Course(String courseTitle, String courseMainTopics, String prerequisites){
+        this.courseTitle = courseTitle;
+        this.courseMainTopics = courseMainTopics;
+        this.prerequisites = prerequisites;
     }
 
     public int getCourseNumber() {
@@ -63,19 +81,19 @@ public class Course {
         this.instructorName = instructorName;
     }
 
-    public String getRegistrationDeadline() {
+    public Date getRegistrationDeadline() {
         return registrationDeadline;
     }
 
-    public void setRegistrationDeadline(String registrationDeadline) {
+    public void setRegistrationDeadline(Date registrationDeadline) {
         this.registrationDeadline = registrationDeadline;
     }
 
-    public String getCourseStartDate() {
+    public Date getCourseStartDate() {
         return courseStartDate;
     }
 
-    public void setCourseStartDate(String courseStartDate) {
+    public void setCourseStartDate(Date courseStartDate) {
         this.courseStartDate = courseStartDate;
     }
 
