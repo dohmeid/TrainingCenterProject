@@ -1,20 +1,38 @@
 package com.example.trainingcenterproject;
 
+import android.graphics.Bitmap;
+
 public class User {
     private String firstName;
     private String secondName;
     private String email;
     private String password;
-    private byte[] photo;
+    private byte[]  photo;
+    private Bitmap photos;
 
     public User() {
     }
-    public User(String firstName, String secondName, String email, String password, byte[] photo) {
+    public User(String firstName, String secondName, String email, String password,byte[]  photo) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.password = password;
         this.photo = photo;
+    }
+    public User(String firstName, String secondName, String email, String password,Bitmap photos) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.email = email;
+        this.password = password;
+        this.photos = photos;
+    }
+
+    public Bitmap getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Bitmap photos) {
+        this.photos = photos;
     }
 
     public String getFirstName() {

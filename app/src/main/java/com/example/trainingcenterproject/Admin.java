@@ -1,10 +1,12 @@
 package com.example.trainingcenterproject;
 
+import android.graphics.Bitmap;
+
 public class Admin extends User{
     public Admin() {
     }
-    public Admin(String firstName, String secondName, String email, String password, byte[] photo) {
-        super(firstName, secondName, email, password, photo);
+    public Admin(String firstName, String secondName, String email, String password, Bitmap photo) {
+        super(firstName, secondName, email, password,photo);
     }
 
     @Override

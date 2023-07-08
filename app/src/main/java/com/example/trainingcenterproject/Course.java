@@ -1,108 +1,76 @@
 package com.example.trainingcenterproject;
 
-import java.util.Date;
+import android.graphics.Bitmap;
 
 public class Course {
-    private int courseNumber;
-    private String courseTitle;
-    private String courseMainTopics;
+    private int course_num;
+    private String title;
+    private String symbol;
+    private String main_topics;
     private String prerequisites;
-    private String instructorName;
-    private Date registrationDeadline;
-    private Date courseStartDate;
-    private String courseSchedule;
+    private Bitmap photo;
+    private String instructor_name;
+    private String deadline;
+    private String start_date;
+    private String schedule; //SW,11:00-12:00
     private String venue;
 
-    public Course(int courseNumber, String courseTitle, String courseMainTopics, String prerequisites, String instructorName, Date registrationDeadline, Date courseStartDate, String courseSchedule, String venue) {
-        this.courseNumber = courseNumber;
-        this.courseTitle = courseTitle;
-        this.courseMainTopics = courseMainTopics;
+    public Course(){
+    }
+
+    public Course(int course_num, String title,String symbol) {
+        this.course_num = course_num;
+        this.title = title;
+        this.symbol = symbol;
+    }
+
+    public Course(int course_num, String title,String symbol, String main_topics, String prerequisites, Bitmap photo) {
+        this.course_num = course_num;
+        this.title = title;
+        this.symbol = symbol;
+        this.main_topics = main_topics;
         this.prerequisites = prerequisites;
-        this.instructorName = instructorName;
-        this.registrationDeadline = registrationDeadline;
-        this.courseStartDate = courseStartDate;
-        this.courseSchedule = courseSchedule;
+        this.photo = photo;
+    }
+    public Course(String symbol, String instructor_name, String deadline, String start_date, String schedule, String venue){
+        this.symbol = symbol;
+        this.instructor_name = instructor_name;
+        this.deadline = deadline;
+        this.start_date = start_date;
+        this.schedule = schedule;
         this.venue = venue;
     }
-    public Course(String courseTitle, String courseMainTopics, String prerequisites, String instructorName, Date registrationDeadline, Date courseStartDate, String courseSchedule, String venue) {
-        this.courseTitle = courseTitle;
-        this.courseMainTopics = courseMainTopics;
-        this.prerequisites = prerequisites;
-        this.instructorName = instructorName;
-        this.registrationDeadline = registrationDeadline;
-        this.courseStartDate = courseStartDate;
-        this.courseSchedule = courseSchedule;
-        this.venue = venue;
+
+    public String getInstructor_name() {
+        return instructor_name;
     }
 
-    public Course(String courseTitle, String courseMainTopics, String prerequisites){
-        this.courseTitle = courseTitle;
-        this.courseMainTopics = courseMainTopics;
-        this.prerequisites = prerequisites;
+    public void setInstructor_name(String instructor_name) {
+        this.instructor_name = instructor_name;
     }
 
-    public int getCourseNumber() {
-        return courseNumber;
+    public String getDeadline() {
+        return deadline;
     }
 
-    public void setCourseNumber(int courseNumber) {
-        this.courseNumber = courseNumber;
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 
-    public String getCourseTitle() {
-        return courseTitle;
+    public String getStart_date() {
+        return start_date;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
     }
 
-    public String getCourseMainTopics() {
-        return courseMainTopics;
+    public String getSchedule() {
+        return schedule;
     }
 
-    public void setCourseMainTopics(String courseMainTopics) {
-        this.courseMainTopics = courseMainTopics;
-    }
-
-    public String getPrerequisites() {
-        return prerequisites;
-    }
-
-    public void setPrerequisites(String prerequisites) {
-        this.prerequisites = prerequisites;
-    }
-
-    public String getInstructorName() {
-        return instructorName;
-    }
-
-    public void setInstructorName(String instructorName) {
-        this.instructorName = instructorName;
-    }
-
-    public Date getRegistrationDeadline() {
-        return registrationDeadline;
-    }
-
-    public void setRegistrationDeadline(Date registrationDeadline) {
-        this.registrationDeadline = registrationDeadline;
-    }
-
-    public Date getCourseStartDate() {
-        return courseStartDate;
-    }
-
-    public void setCourseStartDate(Date courseStartDate) {
-        this.courseStartDate = courseStartDate;
-    }
-
-    public String getCourseSchedule() {
-        return courseSchedule;
-    }
-
-    public void setCourseSchedule(String courseSchedule) {
-        this.courseSchedule = courseSchedule;
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 
     public String getVenue() {
@@ -111,5 +79,66 @@ public class Course {
 
     public void setVenue(String venue) {
         this.venue = venue;
+    }
+
+
+    public int getCourse_num() {
+        return course_num;
+    }
+
+    public void setCourse_num(int course_num) {
+        this.course_num = course_num;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMain_topics() {
+        return main_topics;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setMain_topics(String main_topics) {
+        this.main_topics = main_topics;
+    }
+
+    public String getPrereq() {
+        return prerequisites;
+    }
+
+    public void setPrereq(String prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    public Bitmap getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "course_num=" + course_num +
+                ", title='" + title + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", main_topics='" + main_topics + '\'' +
+                ", prerequisites='" + prerequisites + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
     }
 }

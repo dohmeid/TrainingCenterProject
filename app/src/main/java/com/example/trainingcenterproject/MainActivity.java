@@ -4,17 +4,22 @@ import static com.example.trainingcenterproject.R.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.trainingcenterproject.ui.profile.ProfileFragment;
+import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     DataBaseHelper dataBaseHelper;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    ByteArrayOutputStream objectByteArrayOutputStream ;
+    private byte[] imageInBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +72,24 @@ public class MainActivity extends AppCompatActivity {
     void checkData() {
         boolean b1 = checkEmail();
         boolean b2 = checkPassword();
+        boolean b3 = false;
+
         if (b1 && b2) {
             String em = email.getText().toString();
             String pass = password.getText().toString();
             dataBaseHelper = new DataBaseHelper(this);
-            //DataBaseHelper dataBaseHelper =new DataBaseHelper(AddCustomerActivity.this,"DB_NAME_EXP4",null,1);
 
-            int role = dataBaseHelper.checkEmailPassword(em, pass);
-            if (role > 0) {
+            Cursor c3 = dataBaseHelper.adminCheckEmailPassword(em, pass);
+            if (c3.getCount() > 0) {
+                b3 = true;
+            }else{
+                b3 = false;
+            }
+
+            boolean b4 = dataBaseHelper.traineeCheckEmailPassword(em, pass);
+            boolean b5 = dataBaseHelper.instructorCheckEmailPassword(em, pass);
+
+            if (b3||b4||b5){
                 Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                 if (rememberMe.isChecked()) {
                     editor.putString("email", email.getText().toString());
@@ -80,25 +97,38 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     editor.putString("email", "");
                 }
-                if(role == 1){
-                    //Admin User
-                    Toast.makeText(MainActivity.this, "You are Admin!", Toast.LENGTH_SHORT).show();
-                } else if (role == 2) {
-                    // Trainee User
-                    Bundle bundle = new Bundle();
-                    bundle.putString("email", email.getText().toString());
-//                    ProfileFragment fragobj = new ProfileFragment();
-//                    fragobj.setArguments(bundle);
 
+                if(b3){
+                    if (c3 != null && c3.moveToFirst()) {
+                        Intent intent = new Intent(MainActivity.this, AdminHomeView.class);
+                        intent.putExtra("name1", c3.getString(1));
+                        intent.putExtra("name2", c3.getString(2));
+                        intent.putExtra("mail", c3.getString(0));
+                        @SuppressLint("Range") byte[] imageData = c3.getBlob(c3.getColumnIndex("PHOTO"));
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+                        objectByteArrayOutputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, objectByteArrayOutputStream);
+                        imageInBytes = objectByteArrayOutputStream.toByteArray();
+                        intent.putExtra("photo", imageInBytes);
+                        startActivity(intent);
+                    }
+                }
+                else if(b4) {
+                    //Bundle bundle = new Bundle();
+                    //bundle.putString("email", email.getText().toString());
                     Intent i = new Intent(MainActivity.this, TraineeHomeActivity.class);
                     i.putExtra("email", em);
                     startActivity(i);
-                    this.finish(); //close this activity
-                } else { // Instructor
-                    Toast.makeText(MainActivity.this, "You are Instructor!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent i = new Intent(MainActivity.this, InstructorHome.class);
+                    i.putExtra("email", em);
+                    startActivity(i);
                 }
 
-            } else {
+                finish(); //close this activity
+            }
+            else {
                 Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -123,12 +153,6 @@ public class MainActivity extends AppCompatActivity {
 
     boolean checkPassword() {
         String str = password.getText().toString();
-        char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
-        boolean formatFlag = false;
-
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
             return false;
@@ -141,14 +165,6 @@ public class MainActivity extends AppCompatActivity {
             password.setError(null);
             return true;
         }
-    }
-
-    private void saveSignUpDetails() {
-        SharedPreferences settings = getSharedPreferences("userSignUp", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("Email", email.getText().toString());
-        editor.putBoolean("PREF_IS_LOGIN_KEY", true);
-        editor.commit();
     }
 
 }

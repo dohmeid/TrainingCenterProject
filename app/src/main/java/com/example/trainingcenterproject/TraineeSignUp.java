@@ -72,11 +72,12 @@ public class TraineeSignUp extends AppCompatActivity {
         boolean b2 = checkSecondName();
         boolean b3 = checkEmail();
         boolean b4 = checkPassword();
+        boolean b8 = checkPasswordConfirmation();
         boolean b5 = checkPhoto();
         boolean b6 = checkMobileNumber();
         boolean b7 = checkAddress();
 
-        if(b1 && b2 && b3 && b4 && b5 && b6 && b7){
+        if(b1 && b2 && b3 && b4 && b8 && b5 && b6 && b7){
             Toast.makeText(TraineeSignUp.this, "Successful SignIn", Toast.LENGTH_SHORT).show();
             String name1 = firstName.getText().toString();
             String name2 = secondName.getText().toString();
@@ -148,12 +149,17 @@ public class TraineeSignUp extends AppCompatActivity {
     boolean checkEmail(){
         String mail = email.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
         if (mail.isEmpty() || mail.trim().isEmpty()) {
             email.setError("This field is empty!");
             return false;
         }
         else if (!mail.matches(emailPattern)) {
             email.setError("Invalid email address");
+            return false;
+        }
+        else if(!dataBaseHelper.isUniqueEmail(mail)){
+            email.setError("This email is already used, please use a unique email address");
             return false;
         }
         else {
@@ -164,13 +170,7 @@ public class TraineeSignUp extends AppCompatActivity {
 
     boolean checkPassword() {
         String str = password.getText().toString();
-        String str2 = confirmPass.getText().toString();
-//        char ch;
-//        boolean capitalFlag = false;
-//        boolean lowerCaseFlag = false;
-//        boolean numberFlag = false;
-//        boolean formatFlag = false;
-
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
         if (str.isEmpty() || str.trim().isEmpty()) {
             password.setError("This field is empty!");
             return false;
@@ -198,13 +198,30 @@ public class TraineeSignUp extends AppCompatActivity {
             password.setError("Password must contain at least one uppercase letter.");
             return false;
         }
-        else if (!str.equals(str2)) {
+        else if(!dataBaseHelper.isUniquePassword(str)){
+            password.setError("This password is already taken, enter a unique password");
+            return false;
+        }
+        else {
+            password.setError(null);
+            return true;
+        }
+    }
+
+    boolean checkPasswordConfirmation(){
+        String str = password.getText().toString();
+        String str2 = confirmPass.getText().toString();
+        if (str2.isEmpty() || str2.trim().isEmpty()) {
+            confirmPass.setError("This field is empty!");
+            return false;
+        }
+        else if (!str2.equals(str)) {
             confirmPass.setError("Passwords do not match");
             confirmPass.requestFocus();
             return false;
         }
         else {
-            password.setError(null);
+            confirmPass.setError(null);
             return true;
         }
     }
@@ -224,7 +241,7 @@ public class TraineeSignUp extends AppCompatActivity {
             number.setError("This field cannot be empty");
             return false;
         }
-        else if (number.length() < 10) {
+        else if (number.length() != 10) {
             number.setError("Number must contain 10 digits!");
             return false;
         }
