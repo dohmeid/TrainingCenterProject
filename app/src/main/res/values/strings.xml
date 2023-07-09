@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TrainingCenterProject</string>
+    <string name="title_activity_instructor_home">InstructorHome</string>
+    <string name="title_activity_instructor_home_view">InstructorHomeView</string>
     <string name="admin_view_string">TRAINEE VIEW</string>
     <string name="image">image</string>
     <string name="title_activity_login">LoginActivity</string>

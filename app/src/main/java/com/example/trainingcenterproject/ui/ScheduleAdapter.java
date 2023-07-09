@@ -34,20 +34,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
         // Bind the course data to the views in the ViewHolder
         String schedule = course.getSchedule();
-        if(schedule.equals("idk")){
-            holder.day.setText("idk");
-            holder.time.setText("idk");
-            holder.className.setText(course.getTitle());
-        }
-        else{
-            String[] str = schedule.split(";");
-            holder.day.setText(str[0]);
-            holder.time.setText(str[1]);
-            holder.className.setText(course.getTitle() + " class");
-        }
+        String[] str = schedule.split(",");
+        holder.day.setText(str[0]);
+        holder.time.setText(str[1]);
+        holder.className.setText(course.getTitle() + " class");
 
         // ... Bind other views
-
         // Set any click listeners or additional logic here if needed
     }
 

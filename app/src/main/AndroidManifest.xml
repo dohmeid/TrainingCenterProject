@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +19,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrainingCenterProject"
         tools:targetApi="31">
+        <activity
+            android:name=".InstructorPrfA"
+            android:exported="false" />
+        <activity
+            android:name=".TraineePrfA"
+            android:exported="false" />
+        <activity
+            android:name=".InstructorHome"
+            android:exported="false"
+            android:label="@string/title_activity_instructor_home"
+            android:theme="@style/Theme.TrainingCenterProject.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.OPEN_DOCUMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AdminHomeView"
+            android:exported="false" />
         <activity
             android:name=".TraineeHomeActivity"
             android:exported="false"
@@ -26,15 +54,6 @@
             android:exported="false" />
         <activity
             android:name=".AdminSignUp"
-            android:exported="false" />
-        <activity
-            android:name=".AdminHomeView"
-            android:exported="false" />
-        <activity
-            android:name=".InstructorPrfA"
-            android:exported="false" />
-        <activity
-            android:name=".TraineePrfA"
             android:exported="false" />
         <activity
             android:name=".UserRoleUI"

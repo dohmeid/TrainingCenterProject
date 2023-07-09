@@ -31,9 +31,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("CREATE TABLE INSTRUCTORS(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO BLOB,MOBILE_NUM TEXT,ADDRESS TEXT, SPECIALIZATION TEXT ,DEGREE TEXT ,COURSES TEXT)");
         MyDatabase.execSQL("CREATE TABLE COURSE(COURSE_NUM INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT, SYMBOL TEXT,MAIN_TOPICS TEXT,  PREREQUISITES TEXT, PHOTO BLOB)");
         MyDatabase.execSQL("CREATE TABLE AVAILABLE_COURSE(AVAILABLE_COURSE_NUM INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_NUM INTEGER, SYMBOL TEXT,INSTRUCTOR_NAME TEXT,REG_DEADLINE TEXT, START_DATE TEXT,SCHEDULE TEXT,VENUE TEXT,FOREIGN  KEY (COURSE_NUM) REFERENCES COURSE(COURSE_NUM))");
+
         MyDatabase.execSQL("CREATE TABLE REGISTERED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, COURSE_TITLE TEXT,STUDENT_NAME TEXT,USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
+        //MyDatabase.execSQL("CREATE TABLE REGISTERED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, COURSE_TITLE TEXT,STUDENT_NAME TEXT,USER_EMAIL TEXT )");
+
         MyDatabase.execSQL("CREATE TABLE PENDING_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
+        //MyDatabase.execSQL("CREATE TABLE PENDING_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, USER_EMAIL TEXT)");
+
         MyDatabase.execSQL("CREATE TABLE COMPLETED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, TITLE TEXT, USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
+        //MyDatabase.execSQL("CREATE TABLE COMPLETED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, TITLE TEXT, USER_EMAIL TEXT)");
     }
 
     @Override
@@ -457,9 +463,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         for (String item : splitArray) {
             c.add(item);
         }
-
         return new Instructor(name1,name2,mail,pass,photo,number,address,spec,degree,c);
-        //return new Instructor("name1","name2","mail","pass",photo,"number","address","spec","degree",c);
     }
     public void updateInstructorData(String oldEmail, Instructor newInstructorData) {
         if (oldEmail != "" && newInstructorData != null) {
@@ -477,6 +481,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             values.put("DEGREE", newInstructorData.getDegree());
             db.update("INSTRUCTORS", values, "EMAIL=?", new String[]{oldEmail});
             db.close();
+/*
+            SQLiteDatabase db2 = this.getWritableDatabase();
+            ContentValues values2 = new ContentValues();
+            String n  = newInstructorData.getFirstName() +" " + newInstructorData.getSecondName();
+            values.put("INSTRUCTOR_NAME", n);
+            db2.update("AVAILABLE_COURSE", values2, "EMAIL=?", new String[]{oldEmail});
+            db2.close();*/
         }
     }
     public Cursor getAllCourse() {
@@ -507,14 +518,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return courses;
     }
-    public void insertRegisteredCourse(int num , String course_name,String student_name) {
-        SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("NUMBER2",num);
-        contentValues.put("COURSE_TITLE",course_name);
-        contentValues.put("STUDENT_NAME", student_name);
-        MyDatabase.insert("REGISTERED_COURSES", null, contentValues);
-    }
     public  ArrayList<String> getCourseStudents2(String courseTitle) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ArrayList<String> students = new ArrayList<>();
@@ -526,6 +529,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return students;
     }
-
 
 }

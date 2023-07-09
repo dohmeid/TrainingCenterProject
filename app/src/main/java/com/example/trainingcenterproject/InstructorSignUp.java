@@ -125,7 +125,6 @@ public class InstructorSignUp extends AppCompatActivity {
 
             //go to Instructor profile
             Intent i = new Intent(InstructorSignUp.this, InstructorHome.class);
-           // i.putExtra("instructor", newInstructor); //send the new Instructor object to the next intent
             i.putExtra("email", mail);
             startActivity(i);
             this.finish(); //close this activity

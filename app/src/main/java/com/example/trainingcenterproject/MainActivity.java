@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else if(b4) {
-                    //Bundle bundle = new Bundle();
-                    //bundle.putString("email", email.getText().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", email.getText().toString());
                     Intent i = new Intent(MainActivity.this, TraineeHomeActivity.class);
                     i.putExtra("email", em);
                     startActivity(i);
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 finish(); //close this activity
             }
             else {
-                Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Login Failed!, wrong password/email", Toast.LENGTH_SHORT).show();
             }
         }
     }

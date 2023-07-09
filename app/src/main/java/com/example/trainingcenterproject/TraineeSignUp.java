@@ -95,7 +95,7 @@ public class TraineeSignUp extends AppCompatActivity {
 
             //go to Trainee profile
             Intent intent = new Intent(TraineeSignUp.this, TraineeHomeActivity.class);
-            intent.putExtra("email", email.getText().toString());
+            intent.putExtra("email", mail);
             startActivity(intent);
             finish(); //close this activity
 
