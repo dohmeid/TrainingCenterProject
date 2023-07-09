@@ -33,13 +33,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("CREATE TABLE AVAILABLE_COURSE(AVAILABLE_COURSE_NUM INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_NUM INTEGER, SYMBOL TEXT,INSTRUCTOR_NAME TEXT,REG_DEADLINE TEXT, START_DATE TEXT,SCHEDULE TEXT,VENUE TEXT,FOREIGN  KEY (COURSE_NUM) REFERENCES COURSE(COURSE_NUM))");
 
         MyDatabase.execSQL("CREATE TABLE REGISTERED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, COURSE_TITLE TEXT,STUDENT_NAME TEXT,USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
-        //MyDatabase.execSQL("CREATE TABLE REGISTERED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, COURSE_TITLE TEXT,STUDENT_NAME TEXT,USER_EMAIL TEXT )");
-
         MyDatabase.execSQL("CREATE TABLE PENDING_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
-        //MyDatabase.execSQL("CREATE TABLE PENDING_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, USER_EMAIL TEXT)");
-
         MyDatabase.execSQL("CREATE TABLE COMPLETED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, TITLE TEXT, USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
-        //MyDatabase.execSQL("CREATE TABLE COMPLETED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, TITLE TEXT, USER_EMAIL TEXT)");
     }
 
     @Override
@@ -523,6 +518,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
        return null;
     }
+
+
     public  ArrayList<String> getCourseStudents2(String courseTitle) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ArrayList<String> students = new ArrayList<>();
@@ -533,6 +530,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return students;
+    }
+
+
+    public  String getCourseSchedule(String courseTitle) {
+        String s = "";
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from COURSE where TITLE = ?", new String[]{courseTitle});
+        while (cursor.moveToNext()) {
+            int num = cursor.getInt(cursor.getColumnIndexOrThrow("COURSE_NUM"));
+            Cursor cursor2 = MyDatabase.rawQuery("Select * from AVAILABLE_COURSE where COURSE_NUM = ?", new String[]{String.valueOf(num)});
+            while (cursor2.moveToNext()) {
+                s = cursor2.getString(cursor2.getColumnIndexOrThrow("SCHEDULE"));
+                cursor2.close();
+            }
+            cursor.close();
+        }
+        return s;
     }
 
 }

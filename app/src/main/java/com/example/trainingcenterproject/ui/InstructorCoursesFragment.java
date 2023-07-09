@@ -23,7 +23,6 @@ public class InstructorCoursesFragment extends Fragment {
     private RecyclerView recyclerView;
     private CourseAdapter courseAdapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
