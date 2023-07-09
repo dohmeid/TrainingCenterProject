@@ -4,7 +4,9 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.trainingcenterproject.DataBaseHelper;
+import com.example.trainingcenterproject.MainActivity;
 import com.example.trainingcenterproject.R;
 
 import java.io.ByteArrayOutputStream;
@@ -39,12 +42,12 @@ public class ProfileFragment extends Fragment {
 
     TextView name, email;
     ImageView photo, showHideBtn;
-    int show = 0;
+    int show = 1;
     EditText userName, userEmail, password, phone, address;
     Button save, cancel;
     private Uri selectedImageUri;
     byte[] ImageBytes;
-    Cursor customersCursor;
+    Cursor TraineeCursor;
 
     //SharedPreferences sharedPreferences;
 
@@ -71,30 +74,32 @@ public class ProfileFragment extends Fragment {
 
 
             // Retrieve the data from the arguments
-            Bundle arguments = getArguments();
-            String mail = "";
-            if (arguments != null && arguments.containsKey("email")) {
-                mail = arguments.getString("email");
-            }
+//            Bundle arguments = getArguments();
+//            String mail = "";
+//            if (arguments != null && arguments.containsKey("email")) {
+//                mail = arguments.getString("email");
+//            }
 
-            //String mail = sharedPreferences.getString("email", "");
+//            SharedPreferences sharedPreferences = this.requireActivity().getSharedPreferences("userSignUp", Context.MODE_PRIVATE);
+//            String mail = sharedPreferences.getString("email", "");
+            String mail = getActivity().getIntent().getStringExtra("email");
 
             DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
-            customersCursor = dataBaseHelper.getTrainee(mail);
-            customersCursor.moveToFirst();
+            TraineeCursor = dataBaseHelper.getTrainee(mail);
+            TraineeCursor.moveToFirst();
 
             //while( customersCursor != null && customersCursor.moveToFirst() ) {
 
-                name.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
-                userName.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
-                email.setText(customersCursor.getString(0));
-                userEmail.setText(customersCursor.getString(0));
+                name.setText(TraineeCursor.getString(1) + " " + TraineeCursor.getString(2));
+                userName.setText(TraineeCursor.getString(1) + " " + TraineeCursor.getString(2));
+                email.setText(TraineeCursor.getString(0));
+                userEmail.setText(TraineeCursor.getString(0));
                 userEmail.setEnabled(false);
-                password.setText(customersCursor.getString(3));
-                phone.setText(customersCursor.getString(5));
-                address.setText(customersCursor.getString(6));
-                if (customersCursor.getBlob(4) != null) {
-                    ImageBytes = customersCursor.getBlob(4);
+                password.setText(TraineeCursor.getString(3));
+                phone.setText(TraineeCursor.getString(5));
+                address.setText(TraineeCursor.getString(6));
+                if (TraineeCursor.getBlob(4) != null) {
+                    ImageBytes = TraineeCursor.getBlob(4);
                     Bitmap imageBitmap = BitmapFactory.decodeByteArray(ImageBytes, 0, ImageBytes.length); // Convert the image bytes back to a Bitmap
                     photo.setImageBitmap(imageBitmap);
                 }
@@ -153,20 +158,20 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        customersCursor.moveToFirst();
+        TraineeCursor.moveToFirst();
 
         //while( customersCursor != null && customersCursor.moveToFirst() ) {
 
-        name.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
-        userName.setText(customersCursor.getString(1) + " " + customersCursor.getString(2));
-        email.setText(customersCursor.getString(0));
-        userEmail.setText(customersCursor.getString(0));
+        name.setText(TraineeCursor.getString(1) + " " + TraineeCursor.getString(2));
+        userName.setText(TraineeCursor.getString(1) + " " + TraineeCursor.getString(2));
+        email.setText(TraineeCursor.getString(0));
+        userEmail.setText(TraineeCursor.getString(0));
         userEmail.setEnabled(false);
-        password.setText(customersCursor.getString(3));
-        phone.setText(customersCursor.getString(5));
-        address.setText(customersCursor.getString(6));
-        if (customersCursor.getBlob(4) != null) {
-            ImageBytes = customersCursor.getBlob(4);
+        password.setText(TraineeCursor.getString(3));
+        phone.setText(TraineeCursor.getString(5));
+        address.setText(TraineeCursor.getString(6));
+        if (TraineeCursor.getBlob(4) != null) {
+            ImageBytes = TraineeCursor.getBlob(4);
             Bitmap imageBitmap = BitmapFactory.decodeByteArray(ImageBytes, 0, ImageBytes.length); // Convert the image bytes back to a Bitmap
             photo.setImageBitmap(imageBitmap);
         }

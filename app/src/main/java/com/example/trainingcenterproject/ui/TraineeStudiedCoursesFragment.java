@@ -39,7 +39,7 @@ public class TraineeStudiedCoursesFragment extends Fragment {
 //        if (arguments != null && arguments.containsKey("email")) {
 //            mail = arguments.getString("email");
 //        }
-        SharedPreferences sharedPreferences = this.requireActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.requireActivity().getSharedPreferences("EmailPrefs", Context.MODE_PRIVATE);
         String mail = sharedPreferences.getString("email", "");
         Toast.makeText(getActivity(), "email " + mail, Toast.LENGTH_SHORT).show();
 

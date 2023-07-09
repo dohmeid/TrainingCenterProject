@@ -1,6 +1,9 @@
 package com.example.trainingcenterproject;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,29 +40,32 @@ public class TraineeHomeActivity extends AppCompatActivity implements Navigation
     private static final int PICK_IMAGE_REQUEST = 1;
     Uri selectedImageUri;
     TextView name, email;
+    String mail;
     ImageView photo, showHideBtn, profilePhoto;
-    int show = 0;
+    int show = 1;
     EditText userName, userEmail, password, phone, address;
     Button save, cancel;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //binding = ActivityTraineesHomeBinding.inflate(getLayoutInflater());
-        //setContentView(binding.getRoot());//
+//        binding = ActivityTraineesHomeBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
         setContentView(R.layout.activity_trainees_home) ;
         DrawerLayout drawer = findViewById(R.id.drawer_layout) ;
-        //setSupportActionBar(binding.appBarInstructorHome.toolbar);
+//        setSupportActionBar(binding.appBarTraineeHome.toolbar);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar) ;
         setSupportActionBar(toolbar) ;
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(view -> {
 //            Snackbar.make(view, "", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
 //        });
-        //DrawerLayout drawer = binding.drawerLayout;
+//        DrawerLayout drawer = binding.drawerLayout;
 
 //        NavigationView navigationView = binding.navView;
         NavigationView navigationView = findViewById(R.id.nav_view) ;
@@ -69,14 +75,24 @@ public class TraineeHomeActivity extends AppCompatActivity implements Navigation
                 R.id.nav_search_courses, R.id.nav_studied_course, R.id.nav_courses_history,
                 R.id.nav_log_out).setOpenableLayout(drawer).build();
 
+        mail = getIntent().getStringExtra("email");
+        Bundle bundle = new Bundle();
+        bundle.putString("mail", mail);
+        int id = navController.getCurrentDestination().getId();
+        navController.popBackStack(id, true) ;
+        navController.navigate(id, bundle);
+        sharedPreferences = getSharedPreferences("EmailPrefs", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putString("email", mail);
+        editor.commit();
+
         NavigationUI.setupActionBarWithNavController(TraineeHomeActivity.this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
         //to change the header data into the registered instructor data
         View headerView = navigationView.getHeaderView(0);
-        String mail = getIntent().getStringExtra("email");
-        Bundle bundle = new Bundle();
-        bundle.putString("email", mail);
+
+
 
         name = findViewById(R.id.profileTraineeName);
         email = findViewById(R.id.tv_email);
@@ -168,8 +184,12 @@ public class TraineeHomeActivity extends AppCompatActivity implements Navigation
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_trainees);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+        Bundle bundle = new Bundle();
+        bundle.putString("mail", mail);
+        int id = navController.getCurrentDestination().getId();
+        navController.popBackStack(id, true) ;
+        navController.navigate(id, bundle);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
     @Override

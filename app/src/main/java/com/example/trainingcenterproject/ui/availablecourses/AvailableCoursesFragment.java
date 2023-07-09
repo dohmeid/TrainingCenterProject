@@ -53,9 +53,9 @@ public class AvailableCoursesFragment extends Fragment {
 //            mail = arguments.getString("email");
 //
 //        }
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("EmailPrefs", Context.MODE_PRIVATE);
         String mail = sharedPreferences.getString("email", "");
-//        Toast.makeText(getActivity(), "email " + mail, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "email " + mail, Toast.LENGTH_SHORT).show();
 
         //@SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         DataBaseHelper dataBaseHelper =new DataBaseHelper(getContext());
