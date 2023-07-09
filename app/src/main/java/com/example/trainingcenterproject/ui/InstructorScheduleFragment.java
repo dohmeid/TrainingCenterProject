@@ -50,7 +50,7 @@ public class InstructorScheduleFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             // Create and set up the adapter
-            scheduleAdapter = new ScheduleAdapter(courses);
+            scheduleAdapter = new ScheduleAdapter(getContext(),courses);
             recyclerView.setAdapter(scheduleAdapter);
         }
 
