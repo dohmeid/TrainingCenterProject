@@ -25,7 +25,7 @@ public class TraineeStudiedCoursesFragment extends Fragment {
     LinearLayout completedCourses;
     DataBaseHelper dataBaseHelper;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class TraineeStudiedCoursesFragment extends Fragment {
                 textView.setHeight(150);
                 textView.setTextSize(26);
                 textView.setPadding(10, 10, 10, 10);
-                textView.setText(allCoursesCursor.getString(0) + "\t\t" + allCoursesCursor.getString(1));
+                textView.setText(allCoursesCursor.getString(0) + "\t" + allCoursesCursor.getString(2) + "\t" + allCoursesCursor.getString(1));
 //                textView.setText( "Id: "+ allCoursesCursor.getString(0) +
 //                        "\nTitle: "+ allCoursesCursor.getString(1) +
 //                        "\nTopic: "+ allCoursesCursor.getString(2) +

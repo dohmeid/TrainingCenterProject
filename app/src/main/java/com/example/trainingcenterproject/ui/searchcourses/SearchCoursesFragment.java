@@ -63,29 +63,33 @@ public class SearchCoursesFragment extends Fragment {
             } else {
 
                 Cursor allCoursesCurser = dataBaseHelper.getAvailableCourses();
+                Cursor courseInfo = dataBaseHelper.getCourse(allCoursesCurser.getString(1));
                 courseResult.removeAllViews();
 
-                if (allCoursesCurser == null) {
+                if (allCoursesCurser.getCount() == 0) {
                     TextView textView = new TextView(getActivity());
                     textView.setText("No Courses Found!");
                     courseResult.addView(textView);
                 } else {
                     while (allCoursesCurser.moveToNext()) {
-                        if (allCoursesCurser.getString(1).contains(courseName.getText().toString())) {
+                        if (allCoursesCurser.getString(2).contains(courseName.getText().toString()) || courseInfo.getString(1).contains(courseName.getText().toString())) {
 
                             TextView textView = new TextView(getActivity());
                             textView.setTextSize(22);
-                            textView.setPadding(10,10,10,10);
-                            textView.setText("Id: " + allCoursesCurser.getString(0) +
-                                    "\nTitle: " + allCoursesCurser.getString(1) +
-                                    "\nTopic: " + allCoursesCurser.getString(2) +
-                                    "\nPrerequisites: " + allCoursesCurser.getString(3) +
-                                    "\nInstructor: " + allCoursesCurser.getString(4) +
-                                    "\nDeadline: " + allCoursesCurser.getString(5) +
-                                    "\nStart Date: " + allCoursesCurser.getString(6) +
-                                    "\nSchedule: " + allCoursesCurser.getString(7) +
-                                    "\nVenue: " + allCoursesCurser.getString(8) + "\n\n");
+                            textView.setText(allCoursesCurser.getString(1) + "\t" + allCoursesCurser.getString(2) + "\t" + courseInfo.getString(1));
+
                             courseResult.addView(textView);
+                            TextView info = new TextView(getActivity());
+                            info.setTextSize(18);
+                            info.setPadding(10,5,5,5);
+                            info.setText("Topic: " + courseInfo.getString(3) +
+                                    "\nPrerequisites: " + courseInfo.getString(4) +
+                                    "\nInstructor: " + allCoursesCurser.getString(3)  +
+                                    "\nDeadline: " + allCoursesCurser.getString(4) +
+                                    "\nStart Date: " + allCoursesCurser.getString(5)  +
+                                    "\nSchedule: " + allCoursesCurser.getString(6) +
+                                    "\nVenue: " + allCoursesCurser.getString(7) + "\n");
+                            courseResult.addView(info);
 
                         }
                     }

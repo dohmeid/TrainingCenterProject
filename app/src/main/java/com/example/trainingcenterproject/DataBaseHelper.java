@@ -31,9 +31,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("CREATE TABLE INSTRUCTORS(EMAIL TEXT PRIMARY KEY, NAME1 TEXT, NAME2 TEXT, PASSWORD TEXT, PHOTO BLOB,MOBILE_NUM TEXT,ADDRESS TEXT, SPECIALIZATION TEXT ,DEGREE TEXT ,COURSES TEXT)");
         MyDatabase.execSQL("CREATE TABLE COURSE(COURSE_NUM INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT, SYMBOL TEXT,MAIN_TOPICS TEXT,  PREREQUISITES TEXT, PHOTO BLOB)");
         MyDatabase.execSQL("CREATE TABLE AVAILABLE_COURSE(AVAILABLE_COURSE_NUM INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_NUM INTEGER, SYMBOL TEXT,INSTRUCTOR_NAME TEXT,REG_DEADLINE TEXT, START_DATE TEXT,SCHEDULE TEXT,VENUE TEXT,FOREIGN  KEY (COURSE_NUM) REFERENCES COURSE(COURSE_NUM))");
-        MyDatabase.execSQL("CREATE TABLE REGISTERED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, COURSE_TITLE TEXT,STUDENT_NAME TEXT,USER_EMAIL TEXT )");
-        MyDatabase.execSQL("CREATE TABLE PENDING_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, USER_EMAIL TEXT)");
-        MyDatabase.execSQL("CREATE TABLE COMPLETED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, TITLE TEXT, USER_EMAIL TEXT)");
+        MyDatabase.execSQL("CREATE TABLE REGISTERED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, COURSE_TITLE TEXT,STUDENT_NAME TEXT,USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
+        MyDatabase.execSQL("CREATE TABLE PENDING_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
+        MyDatabase.execSQL("CREATE TABLE COMPLETED_COURSES(ID INTEGER PRIMARY KEY AUTOINCREMENT, COURSE_ID INTEGER, TITLE TEXT, USER_EMAIL TEXT, FOREIGN  KEY (COURSE_ID) REFERENCES COURSE(COURSE_NUM))");
     }
 
     @Override
@@ -336,6 +336,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return false;
     }
+
+    public Cursor getCourse(String Cid){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor1 = MyDatabase.rawQuery("Select * from COURSE where COURSE_NUM = ?", new String[]{Cid});
+        return cursor1;
+    }
     public void updateTrainee(String email, StringBuilder fName, String lName, String password, byte[] photo, String phone, String address) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE TRAINEES " +
@@ -346,15 +352,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getAvailableCourses() {
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM AVAILABLE_COURSES", null);
+        return MyDatabase.rawQuery("SELECT * FROM AVAILABLE_COURSE", null);
     }
     public Cursor getAvailableCourse(String Cid) {
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM AVAILABLE_COURSES where ID = ?", new String[]{Cid});
+        return MyDatabase.rawQuery("SELECT * FROM AVAILABLE_COURSE where AVAILABLE_COURSE_NUM = ?", new String[]{Cid});
     }
     public Cursor getCoursesByLatest() {
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM COURSES ORDER BY ID DESC", null);
+        return MyDatabase.rawQuery("SELECT * FROM COURSE ORDER BY COURSE_NUM DESC", null);
     }
     public Cursor getTrainee(String email) {
         SQLiteDatabase MyDatabase = getReadableDatabase();
@@ -365,11 +371,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("COURSE_ID", Cid);
         contentValues.put("USER_EMAIL", email);
-        MyDatabase.insert("REGISTERED_COURSES", null, contentValues);
+        MyDatabase.insert("PENDING_COURSES", null, contentValues);
     }
     public Cursor getCompletedCourses(String email){
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM COURSES C, COMPLETED_COURSES RC WHERE RC.USER_EMAIL = '" + email + "' AND RC.COURSE_ID = C.ID" , null);
+        return MyDatabase.rawQuery("SELECT * FROM COURSE C, COMPLETED_COURSES RC WHERE RC.USER_EMAIL = '" + email + "' AND RC.COURSE_ID = C.COURSE_NUM" , null);
     }
     public void insertCompletedCourse(String Cname, String email, int Cid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
@@ -381,7 +387,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getTraineeCourses(String email) {
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM AVAILABLE_COURSES C, REGISTERED_COURSES RC WHERE RC.USER_EMAIL = '" + email + "' AND RC.COURSE_ID = C.ID" , null);
+        return MyDatabase.rawQuery("SELECT * FROM COURSE C, AVAILABLE_COURSE RC WHERE RC.USER_EMAIL = '" + email + "' AND RC.COURSE_NUM = C.COURSE_NUM" , null);
     }
     public void insertAvailableCourse(Course a) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
@@ -394,7 +400,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("START_DATE", a.getStart_date());
         contentValues.put("SCHEDULE", a.getSchedule());
         contentValues.put("VENUE", a.getVenue());
-        MyDatabase.insert("AVAILABLE_COURSES", null, contentValues);
+        MyDatabase.insert("AVAILABLE_COURSE", null, contentValues);
     }
 
 
@@ -475,7 +481,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getAllCourse() {
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM COURSES", null);
+        return MyDatabase.rawQuery("SELECT * FROM COURSE", null);
     }
     public  ArrayList<Course> getInstructorCourses(String email) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();

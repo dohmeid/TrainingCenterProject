@@ -50,16 +50,8 @@ public class CoursesHistoryFragment extends Fragment {
                 textView.setHeight(150);
                 textView.setTextSize(18);
                 textView.setPadding(10, 10, 10, 10);
-                textView.setText(allCoursesCursor.getString(0) + "\t" + allCoursesCursor.getString(1));
-//                textView.setText( "Id: "+ allCoursesCursor.getString(0) +
-//                        "\nTitle: "+ allCoursesCursor.getString(1) +
-//                        "\nTopic: "+ allCoursesCursor.getString(2) +
-//                        "\nPrerequisites: "+ allCoursesCursor.getString(3) +
-//                        "\nInstructor: "+ allCoursesCursor.getString(4) +
-//                        "\nDeadline: "+ allCoursesCursor.getString(5) +
-//                        "\nStart Date: "+ allCoursesCursor.getString(6) +
-//                        "\nSchedule: "+ allCoursesCursor.getString(7) +
-//                        "\nVenue: "+ allCoursesCursor.getString(8) + "\n\n" );
+                textView.setText(allCoursesCursor.getString(0) + "\t" + allCoursesCursor.getString(2) + "\t" + allCoursesCursor.getString(1));
+
                 coursesLayout.addView(textView);
 
             }

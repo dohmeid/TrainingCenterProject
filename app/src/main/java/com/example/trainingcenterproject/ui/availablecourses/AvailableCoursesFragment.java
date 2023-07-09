@@ -55,7 +55,7 @@ public class AvailableCoursesFragment extends Fragment {
 //        }
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
         String mail = sharedPreferences.getString("email", "");
-        Toast.makeText(getActivity(), "email " + mail, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "email " + mail, Toast.LENGTH_SHORT).show();
 
         //@SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         DataBaseHelper dataBaseHelper =new DataBaseHelper(getContext());
@@ -82,20 +82,21 @@ public class AvailableCoursesFragment extends Fragment {
             TextView c = new TextView(getActivity());
             c.setTextSize(22);
 
-            String a = allCoursesCurser.getString(0);
-            c.setText(allCoursesCurser.getString(0) + "\t" + allCoursesCurser.getString(1));
+            String a = allCoursesCurser.getString(1);
+            Cursor courseInfo = dataBaseHelper.getCourse(a);
+            c.setText(allCoursesCurser.getString(1) + "\t" + allCoursesCurser.getString(2) + "\t" + courseInfo.getString(1));
 
             coursesLayout.addView(c);
             TextView info = new TextView(getActivity());
             info.setTextSize(18);
             info.setPadding(10,5,5,5);
-            info.setText("Topic: " + allCoursesCurser.getString(2) +
-                    "\nPrerequisites: " + allCoursesCurser.getString(3) +
-                    "\nInstructor: " + allCoursesCurser.getString(4)  +
-                    "\nDeadline: " + allCoursesCurser.getString(5) +
-                    "\nStart Date: " + allCoursesCurser.getString(6)  +
-                    "\nSchedule: " + allCoursesCurser.getString(7) +
-                    "\nVenue: " + allCoursesCurser.getString(8) + "\n");
+            info.setText("Topic: " + courseInfo.getString(3) +
+                    "\nPrerequisites: " + courseInfo.getString(4) +
+                    "\nInstructor: " + allCoursesCurser.getString(3)  +
+                    "\nDeadline: " + allCoursesCurser.getString(4) +
+                    "\nStart Date: " + allCoursesCurser.getString(5)  +
+                    "\nSchedule: " + allCoursesCurser.getString(6) +
+                    "\nVenue: " + allCoursesCurser.getString(7) + "\n");
             coursesLayout.addView(info);
 
 //            coursesLayout.addView(includedLayout);
@@ -110,8 +111,9 @@ public class AvailableCoursesFragment extends Fragment {
 
                 Cursor course = dataBaseHelper.getAvailableCourse(a);
                 course.moveToFirst();
+                Cursor c_info = dataBaseHelper.getCourse(course.getString(1));
 
-                String[] prerequisites = course.getString(3).split(",");
+                String[] prerequisites = c_info.getString(4).split(",");
                 int flag1 = 1, flag2 = 1;
                 for (String s : prerequisites) {
                     Toast.makeText(getActivity(), finalMail+" "+s, Toast.LENGTH_SHORT).show();
@@ -122,7 +124,7 @@ public class AvailableCoursesFragment extends Fragment {
                         }
                     }
                 }
-                String[] schedule = course.getString(7).split(",");
+                String[] schedule = course.getString(6).split(",");
                 String days = schedule[0], time = schedule[1];
                 String[] hour = time.split(":");
 
@@ -134,7 +136,7 @@ public class AvailableCoursesFragment extends Fragment {
                         String days2 = schedule2[0], time2 = schedule[1];
                         String[] hour2 = time.split(":");
                         if (Objects.equals(days2, days)) {
-                            if (Objects.equals(hour2[0], hour[0]) ||  java.lang.Math.abs(Integer.parseInt(hour2[0]) - Integer.parseInt(hour[0])) < 1){
+                            if (Objects.equals(hour2[0], hour[0])){ // ||  java.lang.Math.abs(Integer.parseInt(hour2[0]) - Integer.parseInt(hour[0])) < 1
                                 flag2 = 0;
                                 break;
                             }
@@ -143,7 +145,7 @@ public class AvailableCoursesFragment extends Fragment {
                 } while (availableCurser.moveToNext());
 
                 if(flag1 == 1 && flag2 ==1) {
-                    dataBaseHelper.insertTraineeCourse(Integer.parseInt(allCoursesCurser.getString(0)), finalMail);
+                    dataBaseHelper.insertTraineeCourse(Integer.parseInt(course.getString(1)), finalMail);
                 } else if (flag1 == 0){
                     Toast.makeText(getActivity(), "You have not completed all prerequisites for this course!", Toast.LENGTH_SHORT).show();
                 } else {
