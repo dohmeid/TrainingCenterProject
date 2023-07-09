@@ -135,7 +135,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     //Admin methods (Sara)
     public void insertCourse(Course a) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
@@ -442,28 +441,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public Instructor getInstructorData(String email){ //used in main activity
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select * from INSTRUCTORS where EMAIL = ?", new String[]{email});
-        cursor.moveToFirst();
-        String mail = cursor.getString(0);
-        String name1 = cursor.getString(1);
-        String name2 = cursor.getString(2);
-        String pass = cursor.getString(3);
+        if(cursor.moveToFirst()) {
+           //cursor.moveToFirst();
+            String mail = cursor.getString(0);
+            String name1 = cursor.getString(1);
+            String name2 = cursor.getString(2);
+            String pass = cursor.getString(3);
 
-        byte[] photo = cursor.getBlob(4);
+            byte[] photo = cursor.getBlob(4);
 
-        String number = cursor.getString(5);
-        String address = cursor.getString(6);
-        String spec = cursor.getString(7);
-        String degree = cursor.getString(8);
+            String number = cursor.getString(5);
+            String address = cursor.getString(6);
+            String spec = cursor.getString(7);
+            String degree = cursor.getString(8);
 
-        String courses = cursor.getString(9);
+            String courses = cursor.getString(9);
 
-        //to extract courses
-        ArrayList<String> c = new ArrayList<>();
-        String[] splitArray = courses.split(",");
-        for (String item : splitArray) {
-            c.add(item);
+            //to extract courses
+            ArrayList<String> c = new ArrayList<>();
+            String[] splitArray = courses.split(",");
+            for (String item : splitArray) {
+                c.add(item);
+            }
+            return new Instructor(name1,name2,mail,pass,photo,number,address,spec,degree,c);
         }
-        return new Instructor(name1,name2,mail,pass,photo,number,address,spec,degree,c);
+        return null;
     }
     public void updateInstructorData(String oldEmail, Instructor newInstructorData) {
         if (oldEmail != "" && newInstructorData != null) {
@@ -497,26 +499,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public  ArrayList<Course> getInstructorCourses(String email) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor1 = MyDatabase.rawQuery("Select * from INSTRUCTORS where EMAIL = ?", new String[]{email});
-        cursor1.moveToFirst();
-        String name1 = cursor1.getString(1);
-        String name2 = cursor1.getString(2);
-        String name = name1 + " " + name2;
-        cursor1.close();
+        if(cursor1.moveToFirst()) {
+            cursor1.moveToFirst();
+            String name1 = cursor1.getString(1);
+            String name2 = cursor1.getString(2);
+            String name = name1 + " " + name2;
+            cursor1.close();
 
-        ArrayList<Course> courses = new ArrayList<>();
-        Cursor cursor = MyDatabase.rawQuery("Select * from AVAILABLE_COURSE where INSTRUCTOR_NAME = ?", new String[]{name});
-        while (cursor.moveToNext()) {
-            String symbol = cursor.getString(cursor.getColumnIndexOrThrow("SYMBOL"));
-            Cursor cursor2 = MyDatabase.rawQuery("Select * from COURSE where SYMBOL = ?", new String[]{symbol});
-            while(cursor2.moveToNext()){
-                int number = cursor2.getInt(cursor2.getColumnIndexOrThrow("COURSE_NUM"));
-                String title = cursor2.getString(cursor2.getColumnIndexOrThrow("TITLE"));
-                Course course = new Course(number, title,symbol);
-                courses.add(course);
+            ArrayList<Course> courses = new ArrayList<>();
+            Cursor cursor = MyDatabase.rawQuery("Select * from AVAILABLE_COURSE where INSTRUCTOR_NAME = ?", new String[]{name});
+            while (cursor.moveToNext()) {
+                String symbol = cursor.getString(cursor.getColumnIndexOrThrow("SYMBOL"));
+                Cursor cursor2 = MyDatabase.rawQuery("Select * from COURSE where SYMBOL = ?", new String[]{symbol});
+                while (cursor2.moveToNext()) {
+                    int number = cursor2.getInt(cursor2.getColumnIndexOrThrow("COURSE_NUM"));
+                    String title = cursor2.getString(cursor2.getColumnIndexOrThrow("TITLE"));
+                    Course course = new Course(number, title, symbol);
+                    courses.add(course);
+                }
             }
+            cursor.close();
+            return courses;
         }
-        cursor.close();
-        return courses;
+       return null;
     }
     public  ArrayList<String> getCourseStudents2(String courseTitle) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
