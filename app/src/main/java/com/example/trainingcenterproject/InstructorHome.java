@@ -83,16 +83,7 @@ public class InstructorHome extends AppCompatActivity   {
         NavigationUI.setupActionBarWithNavController(InstructorHome.this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-      // InstructorStudentsFragment n = new InstructorStudentsFragment();
-       // n.newInstance(mail);
-        //navController.setGraph(R.id.nav_viewProfile,bundle);
-        //navController.navigate(R.id.nav_viewProfile, bundle);
-        //navController.navigate(R.id.nav_editProfile, bundle);
-       // navController.navigate(R.id.nav_courses, bundle);
-        //navController.navigate(R.id.nav_schedule, bundle);
-        //navController.navigate(R.id.nav_students, bundle);
-       // NavController navController2 = Navigation.findNavController(InstructorHome.this, R.id.nav_host_fragment_content_instructor_home);
-        //NavController navController = findNavController(R.id.nav_host_fragment)
+
     }
 
     @Override
