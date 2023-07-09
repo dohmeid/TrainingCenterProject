@@ -122,6 +122,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDatabase = getReadableDatabase();
         return MyDatabase.rawQuery("SELECT * FROM TRAINEES", null);
     }
+
+    public Cursor getAllCourses() {
+        SQLiteDatabase MyDatabase = getReadableDatabase();
+        return MyDatabase.rawQuery("SELECT * FROM COURSE", null);
+    }
+
+
+
+    //Admin methods (Sara)
     public void insertCourse(Course a) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Bitmap imageToStoreBitmap = a.getPhoto();
@@ -134,21 +143,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("MAIN_TOPICS", a.getMain_topics());
         contentValues.put("PREREQUISITES", a.getPrereq());
         contentValues.put("PHOTO",imageInBytes);
-       long checkIfInsert = MyDatabase.insert("COURSE", null, contentValues);
-       if(checkIfInsert!=0){
-           Toast.makeText(context,"Course added successfully",Toast.LENGTH_SHORT).show();
-       }else{
-           Toast.makeText(context,"Failed to add course",Toast.LENGTH_SHORT).show();
-       }
+        long checkIfInsert = MyDatabase.insert("COURSE", null, contentValues);
+        if(checkIfInsert!=0){
+            Toast.makeText(context,"Course added successfully",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context,"Failed to add course",Toast.LENGTH_SHORT).show();
+        }
     }
-    public Cursor getAllCourses() {
-        SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM COURSE", null);
-    }
-
-
-
-    //Admin methods (Sara)
     public void updateCourse(Course a, String symbol){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -217,11 +218,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
     public Cursor getCourseStudents(String symbol){
-        String query =  " SELECT NAME1,NAME2,EMAIL" +
-                        " FROM COURSE LEFT JOIN REGISTERED_COURSE rs" +
-                        " ON COURSE.COURSE_NUM = rs.COURSE_NUM " +
-                        " LEFT JOIN TRAINEE ON rs.trainee_id = TRAINEE.trainee_id WHERE " +
-                        " COURSE.SYMBOL = '"+symbol+"'" ;
+        String query =  " SELECT STUDENT_NAME,USER_EMAIL" +
+                        " FROM COURSE LEFT JOIN REGISTERED_COURSES rs" +
+                        " ON COURSE.COURSE_NUM = rs.COURSE_ID " +
+                        " WHERE COURSE.SYMBOL = ?";
+
+
+        SQLiteDatabase MyDatabase = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(MyDatabase!=null){
+            cursor = MyDatabase.rawQuery(query, new String[]{symbol});
+        }
+        return cursor;
+    }
+    public Cursor getPendingCourses(){
+        String query =  " SELECT ID,COURSE_ID,USER_EMAIL FROM PENDING_COURSES ";
 
         SQLiteDatabase MyDatabase = this.getReadableDatabase();
         Cursor cursor = null;
@@ -231,8 +242,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
     public void insertToAvaCourses(Course a) {
+        SQLiteDatabase MyDatabase1 = this.getReadableDatabase();
+        Cursor num = MyDatabase1.rawQuery("SELECT COURSE_NUM FROM COURSE where SYMBOL = ?", new String[]{a.getSymbol()});
+        int courseNum=0;
+        if(num.moveToFirst()){
+            int columnIndex = num.getColumnIndex("COURSE_NUM");
+            courseNum = num.getInt(columnIndex);
+
+        }
+
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("COURSE_NUM",courseNum);
         contentValues.put("SYMBOL", a.getSymbol());
         contentValues.put("INSTRUCTOR_NAME", a.getInstructor_name());
         contentValues.put("REG_DEADLINE", a.getDeadline());
@@ -247,20 +268,62 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
     public Cursor getOfferingHistory(String symbol){
-        String query =  "SELECT COURSE_NUM,TITLE, START_DATE,COUNT(EMAIL),INSTRUCTOR_NAME,VENUE" +
-                " FROM COURSE LEFT JOIN AVAILABLE_COURSE ac" +
-                " ON COURSE.COURSE_NUM = ac.COURSE_NUM" +
-                " LEFT JOIN REGISTERED rc ON COURSE.COURSE_NUM = rc.COURSE_NUM"+
-                " LEFT JOIN TRAINEE  ON TRAINEE.EMAIL = rc.EMAIL"+" WHERE " +
-                "COURSE.SYMBOL = '"+symbol+"'" ;
+        String query =  " SELECT COURSE.COURSE_NUM, COURSE.TITLE, ac.START_DATE,ac.SCHEDULE, ac.INSTRUCTOR_NAME,ac.VENUE" +
+                        " FROM COURSE LEFT JOIN AVAILABLE_COURSE ac" +
+                        " ON COURSE.COURSE_NUM = ac.COURSE_NUM" +
+                        " WHERE COURSE.SYMBOL = ?";
 
         SQLiteDatabase MyDatabase = this.getReadableDatabase();
-        Cursor cursor = null;
+        Cursor cursor=null;
         if(MyDatabase!=null){
-            cursor = MyDatabase.rawQuery(query,null);
+            cursor = MyDatabase.rawQuery(query, new String[]{symbol});
         }
         return cursor;
     }
+
+    public void insertToRegisteredCourse(int c_id, String email){
+        SQLiteDatabase MyDatabase1 = this.getReadableDatabase();
+        Cursor title = MyDatabase1.rawQuery("SELECT TITLE FROM COURSE where COURSE_NUM = ?", new String[]{""+c_id});
+        String ti="";
+        String name="";
+        if(title.moveToFirst()){
+            int columnIndex = title.getColumnIndex("TITLE");
+            ti = title.getString(columnIndex);
+        }
+        Cursor trainee = MyDatabase1.rawQuery("SELECT NAME1,NAME2 FROM TRAINEES where EMAIL = ?", new String[]{email});
+        if(trainee.moveToFirst()){
+            int n1 = trainee.getColumnIndex("NAME1");
+            int n2 = trainee.getColumnIndex("NAME2");
+            name = trainee.getString(n1)+" "+trainee.getString(n2);
+        }
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("COURSE_ID",c_id);
+        contentValues.put("COURSE_TITLE", ti);
+        contentValues.put("STUDENT_NAME", name);
+        contentValues.put("USER_EMAIL", email);
+
+        long checkIfInsert = MyDatabase.insert("REGISTERED_COURSES", null, contentValues);
+        if(checkIfInsert!=0){
+            Toast.makeText(context,"Application is accepted",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+    public void removeFromPending(int c_id, String email){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        long checkIfDel = MyDatabase.delete("PENDING_COURSES", "COURSE_ID = ? AND USER_EMAIL =?", new String[]{""+c_id,email});
+        if(checkIfDel != 0){
+            Toast.makeText(context,"Course deleted successfully",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context,"Course does not exist",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
 
 
 

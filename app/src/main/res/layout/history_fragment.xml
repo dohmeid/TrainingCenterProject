@@ -43,7 +43,7 @@
                 android:hint="."
                 android:inputType="text"
                 android:textAlignment="viewStart"
-                android:textColor="#FAFFFFFF"
+                android:textColor="#3C2A4D"
                 android:textStyle="bold"/>
 
             <Button

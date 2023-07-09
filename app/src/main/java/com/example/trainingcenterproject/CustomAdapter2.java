@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.MyViewHolder>{
     private Context context;
-    private ArrayList num,email;
+    private ArrayList num,c_id,email;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener{
@@ -24,9 +24,10 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.MyViewHo
         listener = clickListener;
     }
 
-    CustomAdapter2(Context context,ArrayList num,ArrayList email){
+    CustomAdapter2(Context context,ArrayList num,ArrayList c_id,ArrayList email){
         this.context = context;
         this.num = num;
+        this.c_id = c_id;
         this.email= email;
     }
 
@@ -42,6 +43,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.MyViewHo
     public void onBindViewHolder(@NonNull CustomAdapter2.MyViewHolder holder, int position) {
         holder.id.setText("Application No."+String.valueOf(num.get(position)));
         holder.email.setText(String.valueOf(email.get(position)));
+
 
     }
 
@@ -72,6 +74,10 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.MyViewHo
                     String mMessage =" We are happy to inform you that your application has been accepted";
                     javaMailApi javaMailAPI = new javaMailApi(context, mEmail, mSubject, mMessage);
                     javaMailAPI.execute();
+                    DataBaseHelper dataBaseHelper =new DataBaseHelper(context);
+                    int courseId = Integer.parseInt(c_id.get(getAdapterPosition()).toString());
+                    dataBaseHelper.insertToRegisteredCourse(courseId, mEmail);
+                    dataBaseHelper.removeFromPending(courseId, mEmail);
 
                 }
             });
@@ -84,6 +90,9 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.MyViewHo
                     String mMessage =" We regret to inform you that your application has been rejected";
                     javaMailApi javaMailAPI = new javaMailApi(context, mEmail, mSubject, mMessage);
                     javaMailAPI.execute();
+                    DataBaseHelper dataBaseHelper =new DataBaseHelper(context);
+                    int courseId = Integer.parseInt(c_id.get(getAdapterPosition()).toString());
+                    dataBaseHelper.removeFromPending(courseId, mEmail);
 
                 }
             });

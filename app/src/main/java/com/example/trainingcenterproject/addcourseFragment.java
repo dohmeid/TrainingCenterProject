@@ -2,6 +2,7 @@ package com.example.trainingcenterproject;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.airbnb.lottie.LottieAnimationView;
 
 import java.io.IOException;
 import java.net.URI;
@@ -48,6 +51,9 @@ public class addcourseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
         symbol = view.findViewById(R.id.courseSymbol);
         title = view.findViewById(R.id.courseTitle);
         main_topic = view.findViewById(R.id.courseMainTopics);

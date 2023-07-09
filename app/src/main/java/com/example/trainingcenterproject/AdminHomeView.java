@@ -64,34 +64,42 @@ public class AdminHomeView extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_add:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new addcourseFragment()).commit();
                 break;
             case R.id.nav_delete:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new deletecourseFragment()).commit();
                 break;
             case R.id.nav_edit:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new editcourseFragment()).commit();
                 break;
             case R.id.nav_accept_reject:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new acceptrejectFragment()).commit();
                 break;
             case R.id.nav_available:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new makeavFragment()).commit();
                 break;
             case R.id.nav_profile:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new profileFragment()).commit();
                 break;
             case R.id.nav_history:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new historyFragment()).commit();
                 break;
             case R.id.nav_student:
+                anim.setVisibility(View.GONE);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new viewStudentFragment()).commit();
                 break;

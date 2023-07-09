@@ -72,21 +72,6 @@ public class profileFragment extends Fragment {
                 // Notify the adapter of the data set change
                 customAdapter.notifyDataSetChanged();
 
-                SQLiteDatabase MyDatabase = dataBaseHelper.getWritableDatabase();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("NAME1", "issa");
-                contentValues.put("NAME2", "mohammad");
-                contentValues.put("EMAIL", "isa@gmail.com");
-                contentValues.put("PASSWORD", "isIsam12");
-                // Convert the photo file to a Bitmap
-                Bitmap imageToStoreBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.im1);
-                objectByteArrayOutputStream = new ByteArrayOutputStream();
-                imageToStoreBitmap.compress(Bitmap.CompressFormat.JPEG,100,objectByteArrayOutputStream);
-                imageInBytes = objectByteArrayOutputStream.toByteArray();
-                contentValues.put("PHOTO", imageInBytes);
-                contentValues.put("MOBILE_NUM", "123456789");
-                contentValues.put("ADDRESS", "ramallah");
-                MyDatabase.insert("TRAINEES", null, contentValues);
                 displayTrainee();
                 customAdapter = new CustomAdapter3(getContext(),usr_name,usr_email,usr_ph,address,mob,null,null);
                 rec.setAdapter(customAdapter);
@@ -108,20 +93,8 @@ public class profileFragment extends Fragment {
 
                 // Notify the adapter of the data set change
                 customAdapter.notifyDataSetChanged();
-                //displayInstructor();
-                //customAdapter = new CustomAdapter3(getContext(),usr_name,usr_email,usr_ph,address,mob,spe,deg);
-                Bitmap imageToStoreBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.im4);
-                objectByteArrayOutputStream = new ByteArrayOutputStream();
-                imageToStoreBitmap.compress(Bitmap.CompressFormat.JPEG,100,objectByteArrayOutputStream);
-                imageInBytes = objectByteArrayOutputStream.toByteArray();
-                usr_name.add("lena ahmad");
-                usr_email.add("lana@gmail.com");
+                displayInstructor();
 
-                usr_ph.add(imageInBytes);
-                address.add("nablus");
-                mob.add("0597123481");
-                spe.add("Computer Engineering");
-                deg.add("PhD");
                 customAdapter = new CustomAdapter3(getContext(),usr_name,usr_email,usr_ph,address,mob,spe,deg);
 
                 rec.setAdapter(customAdapter);
@@ -156,8 +129,8 @@ public class profileFragment extends Fragment {
                 usr_ph.add(cursor.getBlob(4));
                 mob.add(cursor.getString(5));
                 address.add(cursor.getString(6));
-              //  spe.add(cursor.getString(7));
-               // deg.add(cursor.getString(8));
+                spe.add(cursor.getString(7));
+                deg.add(cursor.getString(8));
 
             }
         }

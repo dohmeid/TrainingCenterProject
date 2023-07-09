@@ -1,5 +1,6 @@
 package com.example.trainingcenterproject;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -57,18 +58,19 @@ public class historyFragment extends Fragment {
             }
         });
     }
+    @SuppressLint("Range")
     void displayData(){
         Cursor cursor = dataBaseHelper.getOfferingHistory(symbol.getText().toString());
         if(cursor.getCount() == 0){
             Toast.makeText(getActivity(),"No data.",Toast.LENGTH_SHORT).show();
         }else{
             while (cursor.moveToNext()){
-                c_num.add(cursor.getString(0));
-                c_title.add(cursor.getString(1));
-                c_date.add(cursor.getString(2));
-                c_sts.add(cursor.getString(3));
-                c_venue.add(cursor.getString(4));
-                c_ins.add(cursor.getString(5));
+                c_num.add(cursor.getString(cursor.getColumnIndex("COURSE_NUM")));
+                c_title.add(cursor.getString(cursor.getColumnIndex("TITLE")));
+                c_date.add(cursor.getString(cursor.getColumnIndex("START_DATE")));
+                c_sts.add(cursor.getString(cursor.getColumnIndex("SCHEDULE")));
+                c_venue.add(cursor.getString(cursor.getColumnIndex("VENUE")));
+                c_ins.add(cursor.getString(cursor.getColumnIndex("INSTRUCTOR_NAME")));
 
             }
         }

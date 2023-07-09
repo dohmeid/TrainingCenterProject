@@ -35,12 +35,12 @@ public class CustomAdapter4 extends RecyclerView.Adapter<CustomAdapter4.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter4.MyViewHolder holder, int position) {
-        holder.c_num.setText(String.valueOf(c_num.get(position)));
-        holder.c_title.setText(String.valueOf(c_title.get(position)));
-        holder.c_date.setText(String.valueOf(c_date.get(position)));
-        holder.c_sts.setText(String.valueOf(c_sts.get(position)));
-        holder.c_venue.setText(String.valueOf(c_venue.get(position)));
-        holder.c_ins.setText(String.valueOf(c_ins.get(position)));
+        holder.c_num.setText("CourseNo. "+String.valueOf(c_num.get(position)));
+        holder.c_title.setText("Course Title:"+String.valueOf(c_title.get(position)));
+        holder.c_date.setText("Date."+String.valueOf(c_date.get(position)));
+        holder.c_sts.setText("Time:"+String.valueOf(c_sts.get(position)));
+        holder.c_venue.setText("Venue:"+String.valueOf(c_venue.get(position)));
+        holder.c_ins.setText("Instructor Name:"+String.valueOf(c_ins.get(position)));
 
     }
 

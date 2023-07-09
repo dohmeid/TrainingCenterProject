@@ -1,6 +1,9 @@
 package com.example.trainingcenterproject;
 
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class acceptrejectFragment extends Fragment {
     RecyclerView rec;
-    ArrayList<String> application_num,student_email;
-    DataBaseHelper dataBaseHelper;
+    ArrayList<String> application_num,course_id,student_email;
+    DataBaseHelper dataBaseHelper ;
     CustomAdapter2 customAdapter;
+
 
     @Nullable
     @Override
@@ -31,12 +36,22 @@ public class acceptrejectFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+       /* dataBaseHelper = new DataBaseHelper(getContext());
+        SQLiteDatabase MyDatabase = dataBaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ID",2);
+        contentValues.put("COURSE_ID",1);
+        contentValues.put("USER_EMAIL", "isa@gmail.com");
+        MyDatabase.insert("PENDING_COURSES", null, contentValues);*/
+
+
         rec = view.findViewById(R.id.recyclerACC);
         dataBaseHelper = new DataBaseHelper(getContext());
         application_num = new ArrayList<>();
+        course_id = new ArrayList<>();
         student_email = new ArrayList<>();
         displayData();
-        customAdapter = new CustomAdapter2(getContext(),application_num,student_email);
+        customAdapter = new CustomAdapter2(getContext(),application_num,course_id,student_email);
         rec.setAdapter(customAdapter);
         customAdapter.setOnItemClickListener(new CustomAdapter2.OnItemClickListener() {
             @Override
@@ -49,22 +64,19 @@ public class acceptrejectFragment extends Fragment {
         rec.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
+    @SuppressLint("Range")
     void displayData(){
-        application_num.add("1");
-        application_num.add("2");
-        student_email.add("romaneh.sarah@gmail.com");
-        student_email.add("saraissamr@gmail.com");
-
-       /* Cursor cursor = dataBaseHelper.getCourseStudents(symbol.getText().toString());
+        Cursor cursor = dataBaseHelper.getPendingCourses();
         if(cursor.getCount() == 0){
             Toast.makeText(getActivity(),"No data.",Toast.LENGTH_SHORT).show();
         }else{
             while (cursor.moveToNext()){
-                application_num.add(cursor.getString(0));
-                student_email.add(cursor.getString(2));
+                application_num.add(cursor.getString(cursor.getColumnIndex("ID")));
+                course_id.add(cursor.getString(cursor.getColumnIndex("COURSE_ID")));
+                student_email.add(cursor.getString(cursor.getColumnIndex("USER_EMAIL")));
 
             }
-        }*/
+        }
     }
 
 

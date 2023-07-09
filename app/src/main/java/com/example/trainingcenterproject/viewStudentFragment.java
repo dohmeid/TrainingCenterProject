@@ -1,6 +1,9 @@
 package com.example.trainingcenterproject;
 
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +36,14 @@ public class viewStudentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dataBaseHelper = new DataBaseHelper(getContext());
+        SQLiteDatabase MyDatabase = dataBaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ID",1);
+        contentValues.put("COURSE_ID",3);
+        contentValues.put("STUDENT_NAME","mahdi");
+        contentValues.put("USER_EMAIL", "Sara@gmail.com");
+        MyDatabase.insert("REGISTERED_COURSES", null, contentValues);
         rec = view.findViewById(R.id.recycler);
         search = view.findViewById(R.id.stbutton);
         symbol = view.findViewById(R.id.stcoursenum);
@@ -54,6 +65,7 @@ public class viewStudentFragment extends Fragment {
         });
 
     }
+    @SuppressLint("Range")
     void displayData(){
         Cursor cursor = dataBaseHelper.getCourseStudents(symbol.getText().toString());
         if(cursor.getCount() == 0){
@@ -62,8 +74,8 @@ public class viewStudentFragment extends Fragment {
             int i =1;
             while (cursor.moveToNext()){
                 id.add(""+i);
-                student_name.add(cursor.getString(1)+cursor.getString(2));
-                student_email.add(cursor.getString(3));
+                student_name.add(cursor.getString(cursor.getColumnIndex("STUDENT_NAME")));
+                student_email.add(cursor.getString(cursor.getColumnIndex("USER_EMAIL")));
                 i++;
 
             }
