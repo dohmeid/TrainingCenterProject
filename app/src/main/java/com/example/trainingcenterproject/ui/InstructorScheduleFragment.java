@@ -54,6 +54,6 @@ public class InstructorScheduleFragment extends Fragment {
             recyclerView.setAdapter(scheduleAdapter);
         }
 
-            return root;
+        return root;
     }
 }

@@ -535,4 +535,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return students;
     }
 
+
+    public  String getCourseSchedule(String courseTitle) {
+        String s = "";
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from COURSE where TITLE = ?", new String[]{courseTitle});
+        while (cursor.moveToNext()) {
+            int num = cursor.getInt(cursor.getColumnIndexOrThrow("COURSE_NUM"));
+            Cursor cursor2 = MyDatabase.rawQuery("Select * from AVAILABLE_COURSE where COURSE_NUM = ?", new String[]{String.valueOf(num)});
+            while (cursor2.moveToNext()) {
+                s = cursor2.getString(cursor2.getColumnIndexOrThrow("SCHEDULE"));
+                cursor2.close();
+            }
+            cursor.close();
+        }
+        return s;
+    }
+
 }
