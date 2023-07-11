@@ -63,7 +63,7 @@ public class SearchCoursesFragment extends Fragment {
             } else {
 
                 Cursor allCoursesCurser = dataBaseHelper.getAvailableCourses();
-                Cursor courseInfo = dataBaseHelper.getCourse(allCoursesCurser.getString(1));
+
                 courseResult.removeAllViews();
 
                 if (allCoursesCurser.getCount() == 0) {
@@ -72,6 +72,8 @@ public class SearchCoursesFragment extends Fragment {
                     courseResult.addView(textView);
                 } else {
                     while (allCoursesCurser.moveToNext()) {
+                        Cursor courseInfo = dataBaseHelper.getCourse(allCoursesCurser.getString(1));
+                        courseInfo.moveToFirst();
                         if (allCoursesCurser.getString(2).contains(courseName.getText().toString()) || courseInfo.getString(1).contains(courseName.getText().toString())) {
 
                             TextView textView = new TextView(getActivity());

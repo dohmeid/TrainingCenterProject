@@ -356,7 +356,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getAvailableCourse(String Cid) {
         SQLiteDatabase MyDatabase = getReadableDatabase();
-        return MyDatabase.rawQuery("SELECT * FROM AVAILABLE_COURSE where AVAILABLE_COURSE_NUM = ?", new String[]{Cid});
+        return MyDatabase.rawQuery("SELECT * FROM AVAILABLE_COURSE where COURSE_NUM = ?", new String[]{Cid});
     }
     public Cursor getCoursesByLatest() {
         SQLiteDatabase MyDatabase = getReadableDatabase();

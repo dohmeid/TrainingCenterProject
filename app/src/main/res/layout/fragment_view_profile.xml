@@ -8,15 +8,15 @@
 
     <TextView
         android:id="@+id/profileTraineeName"
-        android:fontFamily="sans-serif-black"
-        android:letterSpacing="0.05"
-        android:textAlignment="center"
-        android:textColor="#3B2A4C"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="29dp"
         android:layout_marginTop="17dp"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.05"
         android:text=""
+        android:textAlignment="center"
+        android:textColor="#3B2A4C"
         android:textFontWeight="@integer/material_motion_duration_medium_1"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,12 +28,12 @@
         android:layout_height="42dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="75dp"
-        android:text=""
-        android:textSize="20sp"
         android:fontFamily="sans-serif-black"
         android:letterSpacing="0.05"
+        android:text=""
         android:textAlignment="center"
         android:textColor="#3B2A4C"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,15 +66,16 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:textSize="20sp"
-        android:inputType="text"
-        android:text=""
         android:fontFamily="sans-serif-black"
+        android:inputType="text"
         android:letterSpacing="0.05"
-        android:textColor="#3B2A4C"
         android:maxLength="41"
+        android:text=""
+        android:textColor="#3B2A4C"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/personIcon"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/emailIcon"
@@ -97,7 +98,8 @@
         android:text=""
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/emailIcon"
-        app:layout_constraintTop_toBottomOf="@+id/TraineeName" />
+        app:layout_constraintTop_toBottomOf="@+id/TraineeName"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/passIcon"
@@ -116,16 +118,17 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="11dp"
         android:ems="10"
-        android:inputType="textPassword"
-        android:text=""
         android:fontFamily="sans-serif-black"
+        android:inputType="textPassword"
         android:letterSpacing="0.05"
-        android:textColor="#3B2A4C"
         android:maxLength="15"
+        android:text=""
+        android:textColor="#3B2A4C"
 
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/passIcon"
-        app:layout_constraintTop_toBottomOf="@+id/TraineeEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/TraineeEmail"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/showHideBtn"
@@ -154,14 +157,15 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="11dp"
         android:ems="10"
-        android:inputType="phone"
-        android:text=""
         android:fontFamily="sans-serif-black"
+        android:inputType="phone"
         android:letterSpacing="0.05"
+        android:text=""
         android:textColor="#3B2A4C"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/phoneIcon"
-        app:layout_constraintTop_toBottomOf="@+id/TraineePass" />
+        app:layout_constraintTop_toBottomOf="@+id/TraineePass"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/addressIcon"
@@ -180,14 +184,15 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="11dp"
         android:ems="10"
-        android:inputType="text"
-        android:text=""
         android:fontFamily="sans-serif-black"
+        android:inputType="text"
         android:letterSpacing="0.05"
+        android:text=""
         android:textColor="#3B2A4C"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/addressIcon"
-        app:layout_constraintTop_toBottomOf="@+id/TraineePhone" />
+        app:layout_constraintTop_toBottomOf="@+id/TraineePhone"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/cancelBtn"

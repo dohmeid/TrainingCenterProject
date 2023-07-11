@@ -189,10 +189,10 @@ public class AdminSignUp extends AppCompatActivity {
             password.setError("Password must contain at least one uppercase letter.");
             return false;
         }
-        else if(!dataBaseHelper.isUniquePassword(str)){
-            password.setError("This password is already taken, enter a unique password");
-            return false;
-        }
+//        else if(!dataBaseHelper.isUniquePassword(str)){
+//            password.setError("This password is already taken, enter a unique password");
+//            return false;
+//        }
         else {
             password.setError(null);
             return true;

@@ -55,10 +55,13 @@ public class AvailableCoursesFragment extends Fragment {
 //        }
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("EmailPrefs", Context.MODE_PRIVATE);
         String mail = sharedPreferences.getString("email", "");
-        Toast.makeText(getActivity(), "email " + mail, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "email " + mail, Toast.LENGTH_SHORT).show();
 
         //@SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         DataBaseHelper dataBaseHelper =new DataBaseHelper(getContext());
+        dataBaseHelper.insertCompletedCourse("C", mail, 1);
+        dataBaseHelper.insertCompletedCourse("Java", mail, 2);
+
         Cursor allCoursesCurser = dataBaseHelper.getAvailableCourses();
         coursesLayout.removeAllViews();
 
@@ -84,6 +87,7 @@ public class AvailableCoursesFragment extends Fragment {
 
             String a = allCoursesCurser.getString(1);
             Cursor courseInfo = dataBaseHelper.getCourse(a);
+            courseInfo.moveToFirst();
             c.setText(allCoursesCurser.getString(1) + "\t" + allCoursesCurser.getString(2) + "\t" + courseInfo.getString(1));
 
             coursesLayout.addView(c);
@@ -111,46 +115,52 @@ public class AvailableCoursesFragment extends Fragment {
 
                 Cursor course = dataBaseHelper.getAvailableCourse(a);
                 course.moveToFirst();
+                String name1 = course.getString(1);
                 Cursor c_info = dataBaseHelper.getCourse(course.getString(1));
 
-                String[] prerequisites = c_info.getString(4).split(",");
-                int flag1 = 1, flag2 = 1;
-                for (String s : prerequisites) {
-                    Toast.makeText(getActivity(), finalMail+" "+s, Toast.LENGTH_SHORT).show();
-                    if(!Objects.equals(s, "")) {
-                        if (!dataBaseHelper.checkCompletion(finalMail, s)) {
-                            flag1 = 0;
-                            break;
-                        }
-                    }
-                }
-                String[] schedule = course.getString(6).split(",");
-                String days = schedule[0], time = schedule[1];
-                String[] hour = time.split(":");
+                    c_info.moveToFirst();
+                    String name2 = c_info.getString(1);
 
-                Cursor availableCurser = dataBaseHelper.getAvailableCourses();
-                availableCurser.moveToFirst();
-                do {
-                    if(!Objects.equals(availableCurser.getString(0), course.getString(0))) {
-                        String[] schedule2 = availableCurser.getString(7).split(",");
-                        String days2 = schedule2[0], time2 = schedule[1];
-                        String[] hour2 = time.split(":");
-                        if (Objects.equals(days2, days)) {
-                            if (Objects.equals(hour2[0], hour[0])){ // ||  java.lang.Math.abs(Integer.parseInt(hour2[0]) - Integer.parseInt(hour[0])) < 1
-                                flag2 = 0;
+                    String[] prerequisites = c_info.getString(4).split(",");
+                    int flag1 = 1, flag2 = 1;
+                    for (String s : prerequisites) {
+                        //Toast.makeText(getActivity(), finalMail + " " + s, Toast.LENGTH_SHORT).show();
+                        if (!Objects.equals(s, "")) {
+                            if (!dataBaseHelper.checkCompletion(finalMail, s)) {
+                                flag1 = 0;
                                 break;
                             }
                         }
                     }
-                } while (availableCurser.moveToNext());
+                    String[] schedule = course.getString(6).split(",");
+                    String days = schedule[0], time = schedule[1];
+                    String[] hour = time.split(":");
 
-                if(flag1 == 1 && flag2 ==1) {
-                    dataBaseHelper.insertTraineeCourse(Integer.parseInt(course.getString(1)), finalMail);
-                } else if (flag1 == 0){
-                    Toast.makeText(getActivity(), "You have not completed all prerequisites for this course!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "You have time conflict with other courses you are enrolled in!", Toast.LENGTH_SHORT).show();
-                }
+                    Cursor availableCurser = dataBaseHelper.getAvailableCourses();
+                    availableCurser.moveToFirst();
+                    do {
+                        if (!Objects.equals(availableCurser.getString(0), course.getString(0))) {
+                            String[] schedule2 = availableCurser.getString(7).split(",");
+                            String days2 = schedule2[0], time2 = schedule[1];
+                            String[] hour2 = time.split(":");
+                            if (Objects.equals(days2, days)) {
+                                if (Objects.equals(hour2[0], hour[0])) { // ||  java.lang.Math.abs(Integer.parseInt(hour2[0]) - Integer.parseInt(hour[0])) < 1
+                                    flag2 = 0;
+                                    break;
+                                }
+                            }
+                        }
+                    } while (availableCurser.moveToNext());
+
+                    if (flag1 == 1 && flag2 == 1) {
+                        dataBaseHelper.insertTraineeCourse(Integer.parseInt(course.getString(1)), finalMail);
+                        Toast.makeText(getActivity(), "You have registered successfully for this course, wait the admin to accept your application!", Toast.LENGTH_SHORT).show();
+                    } else if (flag1 == 0) {
+                        Toast.makeText(getActivity(), "You have not completed all prerequisites for this course!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "You have time conflict with other courses you are enrolled in!", Toast.LENGTH_SHORT).show();
+                    }
+
             });
             coursesLayout.addView(apply);
         }
